@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=sddm-theme
+Name=myGlass
+Version=1.0.1
+
+[Theme]
+MainScript=Main.qml
+ConfigFile=theme.Conf
