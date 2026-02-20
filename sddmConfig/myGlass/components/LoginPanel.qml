@@ -179,7 +179,7 @@ Item {
             mipmap: true
             antialiasing: true
 
-            source: "../AnimationFingerPrint/AnimacionHuella_" + ("00000" + (fingerprintIcon.frameIndex + 1)).slice(-5) + ".png"
+            source: "../animationFingerPrint/AnimacionHuella_" + ("00000" + (fingerprintIcon.frameIndex + 1)).slice(-5) + ".png"
         }
 
         Timer {
