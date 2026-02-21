@@ -18,8 +18,8 @@ done
 
 echo ""
 echo "==> Copiando tema Layan a /usr/share/Kvantum/..."
-if [ -d "$SCRIPT_DIR/$LAYAN_THEME" ]; then
-    sudo cp -r "$SCRIPT_DIR/TemaKavantum/$LAYAN_THEME" "/usr/share/Kvantum/"
+if [ -d "$SCRIPT_DIR/TemaKvantum/$LAYAN_THEME" ]; then
+    sudo cp -r "$SCRIPT_DIR/TemaKvantum/$LAYAN_THEME" "/usr/share/Kvantum/"
     echo "  -> Tema Layan copiado correctamente."
 else
     echo "  [ERROR] No se encontró la carpeta '$LAYAN_THEME' en el directorio del script: $SCRIPT_DIR"
