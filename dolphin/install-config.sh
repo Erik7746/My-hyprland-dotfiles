@@ -110,10 +110,11 @@ if [ -d "$HOME/.config/WallpaperSelector" ]; then
     cp -r "$SCRIPT_DIR/tela-recolor.sh" "$HOME/.config/WallpaperSelector/"
     echo "Se agrego los colores dinamicos"
 fi
+cp -r "$SCRIPT_DIR/dolphinrc" "$HOME/.config/"
 
 echo ""
 echo "✔ Instalación completada."
 echo ""
 echo "  Recuerda exportar las variables de entorno en tu hyprland.conf o en /etc/environment si aún no lo has hecho:"
-echo "    QT_QPA_PLATFORMTHEME=qt6ct"
-echo "    QT_STYLE_OVERRIDE=kvantum"
+echo "    env = QT_QPA_PLATFORMTHEME,qt6ct"
+echo "    env = QT_STYLE_OVERRIDE,kvantum"
