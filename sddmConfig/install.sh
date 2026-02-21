@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-#  install.sh — Instalador del tema SDDM "myGlass"
+#  install-theme-sddm.sh — Instalador del tema SDDM "myGlass"
 #  Arch Linux + Hyprland
 # ============================================================
 
@@ -44,7 +44,7 @@ echo ""
 
 # ── Verificar root ───────────────────────────────────────────
 if [[ "$EUID" -ne 0 ]]; then
-    error "Este script debe ejecutarse como root.\n  Usa: sudo bash install.sh"
+    error "Este script debe ejecutarse como root."
 fi
 
 # ── Verificar que estamos en Arch Linux ──────────────────────

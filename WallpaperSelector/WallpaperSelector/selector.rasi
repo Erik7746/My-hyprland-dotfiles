@@ -1,0 +1,98 @@
+@import "~/.cache/wallpaper-selector/gradient.rasi"
+
+// Config //
+configuration {
+    modi:                        "drun";
+    show-icons:                  true;
+    drun-display-format:         "{name}";
+    font:                        "JetBrainsMono Nerd Font 10";
+}
+
+* {
+    main-bg:            #00000030;
+    main-fg:            #00000000;
+    select-bg:          #aac9f0ff;
+    select-fg:          #000000ff;
+}
+
+// Main //
+window {
+    enabled:                     true;
+    fullscreen:                  false;
+    transparency:                "real";
+    cursor:                      "default";
+    spacing:                     0em;
+    padding:                     0em;
+    border:                      0em;
+    border-radius:               0em;
+    border-color:                transparent;
+    background-color:            @main-bg;
+}
+mainbox {
+    enabled:                     true;
+    orientation:                 horizontal;
+    children:                    [ "dummy", "frame", "dummy" ];
+    background-color:            transparent;
+}
+frame {
+    children:                    [ "listview" ];
+    background-color:            transparent;
+}
+
+
+// Lists //
+listview {
+    enabled:                     true;
+    spacing:                     2em;
+    padding:                     4em;
+    columns:                     6;
+    lines:                       1;
+    dynamic:                     false;
+    fixed-height:                false;
+    fixed-columns:               true;
+    reverse:                     true;
+    cursor:                      "default";
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+dummy {
+    width:                       0.5em;
+    expand:                      false;
+    background-color:            transparent;
+}
+
+
+// Elements //
+element {
+    enabled:                     true;
+    margin:                      0em;
+    spacing:                     0em;
+    padding:                     0em;
+    cursor:                      pointer;
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+
+element selected.normal {
+    text-color:                  @select-fg;
+    padding:                     0em;
+    margin:                      0em;
+}
+
+element-icon {
+    cursor:                      inherit;
+    size:                        28em;
+    margin:                      -4em 1em;
+    background-color:            transparent;
+    text-color:                  inherit;
+    expand:                      false;
+}
+
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+
