@@ -2,6 +2,8 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "==> Instalando dependencias..."
 PACKAGES=(
     rofi-wayland
@@ -13,16 +15,16 @@ for pkg in "${PACKAGES[@]}"; do
     if ! pacman -Qi "$pkg" &>/dev/null; then
         TO_INSTALL+=("$pkg")
     else
-        success "$pkg ya instalado"
+        echo "$pkg ya instalado"
     fi
 done
 
 if [[ ${#TO_INSTALL[@]} -gt 0 ]]; then
     info "Instalando: ${TO_INSTALL[*]}"
     sudo pacman -S --noconfirm "${TO_INSTALL[@]}" || error "Falló la instalación de paquetes"
-    success "Dependencias instaladas"
+    echo "Dependencias instaladas"
 else
-    success "Todas las dependencias ya estaban instaladas"
+    echo "Todas las dependencias ya estaban instaladas"
 fi
 
 cp -r "$SCRIPT_DIR/rofi" "$HOME/.config/"

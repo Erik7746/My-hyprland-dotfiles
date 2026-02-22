@@ -47,7 +47,6 @@ PACKAGES=(
     ffmpeg
     jq
     mpv
-    pywal
 )
 
 # Verificar cuáles ya están instalados
@@ -68,7 +67,44 @@ else
     success "Todas las dependencias ya estaban instaladas"
 fi
 
+# Paquetes AUR
+AUR_PACKAGES=(
+    pywal
+    mpvpaper
+)
+
+# Verificar que yay esté instalado
+if ! command -v yay &>/dev/null; then
+    warning "yay no está instalado. Instalando yay..."
+
+    sudo pacman -S --needed --noconfirm base-devel git || error "No se pudo instalar base-devel y git"
+
+    cd /tmp
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm || error "No se pudo instalar yay"
+    cd -
+fi
+
+TO_INSTALL_AUR=()
+for pkg in "${AUR_PACKAGES[@]}"; do
+    if ! pacman -Qi "$pkg" &>/dev/null; then
+        TO_INSTALL_AUR+=("$pkg")
+    else
+        success "$pkg ya instalado (AUR)"
+    fi
+done
+
+if [[ ${#TO_INSTALL_AUR[@]} -gt 0 ]]; then
+    info "Instalando desde AUR: ${TO_INSTALL_AUR[*]}"
+    yay -S --noconfirm "${TO_INSTALL_AUR[@]}" || error "Falló la instalación AUR"
+    success "Paquetes AUR instalados"
+else
+    success "Todos los paquetes AUR ya estaban instalados"
+fi
+
 cp -r "$REPO_DIR/WallpaperSelector/" "$DEST/"
+cp -r "$REPO_DIR/Wallpapers/" "$HOME/"
 success "Archivos copiados correctamente"
 
 echo ""
