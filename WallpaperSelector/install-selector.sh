@@ -104,8 +104,13 @@ else
 fi
 
 cp -r "$REPO_DIR/WallpaperSelector/" "$DEST/"
+success "Sripts agregados"
 cp -r "$REPO_DIR/Wallpapers/" "$HOME/"
-success "Archivos copiados correctamente"
+success "Carpeta de Wallpapers agregado"
+cp -r "$REPO_DIR/cache/wallpaper-selector" "$HOME/.cache/"
+success "Cache inicial agregado"
+
+success "=== Archivos copiados correctamente ==="
 
 echo ""
 echo -e "${GREEN}${BOLD}╔══════════════════════════════════════════╗${RESET}"
