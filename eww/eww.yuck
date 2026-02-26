@@ -11,6 +11,10 @@
 
 (defvar volume 35)
 
+(deflisten bars_data
+  :initial '{"b1":2,"b2":2,"b3":2,"b4":2,"b5":2,"b6":2,"b7":2,"b8":2,"b9":2,"b10":2}'
+  `bash ~/.config/eww/scripts/cava-listen.sh`)
+
 (defwindow control-panel 
   :monitor 0
   :geometry (geometry :anchor "top right" :x "0px" :y "0px" :width "400px" :height "400px")
@@ -18,6 +22,7 @@
   (container)
   )
   
+; --- Barra individual ---
 (defwidget cava-bar [height]
   (box
     :class "cava-bar-wrapper"
@@ -30,42 +35,41 @@
       :width 6
       :height height)))
       
-; --- Lado izquierdo: bar1 → bar10 (orden normal) ---
+; --- Lado izquierdo
 (defwidget cava-left []
   (box
-    :class "cava-side"
     :orientation "h"
     :space-evenly false
     :valign "end"
     :spacing 2
+    (cava-bar :height {bars_data.b1})
+    (cava-bar :height {bars_data.b2})
+    (cava-bar :height {bars_data.b3})
+    (cava-bar :height {bars_data.b4})
+    (cava-bar :height {bars_data.b5})
+    (cava-bar :height {bars_data.b6})
+    (cava-bar :height {bars_data.b7})
+    (cava-bar :height {bars_data.b8})
+    (cava-bar :height {bars_data.b9})
+    (cava-bar :height {bars_data.b10})))
 
-    (cava-bar :height bar1)
-    (cava-bar :height bar2)
-    (cava-bar :height bar3)
-    (cava-bar :height bar4)
-    (cava-bar :height bar5)
-    (cava-bar :height bar6)
-    (cava-bar :height bar7)
-    (cava-bar :height bar8)
-))
-
-; --- Lado derecho: bar10 → bar1 (orden invertido = espejo) ---
+; --- Lado derecho
 (defwidget cava-right []
   (box
-    :class "cava-side"
     :orientation "h"
     :space-evenly false
     :valign "end"
     :spacing 2
-
-    (cava-bar :height bar8)
-    (cava-bar :height bar7)
-    (cava-bar :height bar6)
-    (cava-bar :height bar5)
-    (cava-bar :height bar4)
-    (cava-bar :height bar3)
-    (cava-bar :height bar2)
-    (cava-bar :height bar1)))
+    (cava-bar :height {bars_data.b10})
+    (cava-bar :height {bars_data.b9})
+    (cava-bar :height {bars_data.b8})
+    (cava-bar :height {bars_data.b7})
+    (cava-bar :height {bars_data.b6})
+    (cava-bar :height {bars_data.b5})
+    (cava-bar :height {bars_data.b4})
+    (cava-bar :height {bars_data.b3})
+    (cava-bar :height {bars_data.b2})
+    (cava-bar :height {bars_data.b1})))
 
 ; --- Visualizador completo: izq + espejo ---
 (defwidget cava-visualizer []
@@ -75,8 +79,9 @@
     :space-evenly false
     :valign "end"
     :halign "center"
-    :spacing 2
+    :spacing 1
     (cava-left)
+    (box :class "cava-mirror-gap" )
     (cava-right)))
 
 (defwidget container []
