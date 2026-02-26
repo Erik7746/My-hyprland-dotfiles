@@ -1,0 +1,224 @@
+(defvar bar1  2)
+(defvar bar2  2)
+(defvar bar3  2)
+(defvar bar4  2)
+(defvar bar5  2)
+(defvar bar6  2)
+(defvar bar7  2)
+(defvar bar8  2)
+(defvar bar9  2)
+(defvar bar10 2)
+
+(defvar volume 35)
+
+(defwindow control-panel 
+  :monitor 0
+  :geometry (geometry :anchor "top right" :x "0px" :y "0px" :width "400px" :height "400px")
+  :stacking "overlay"
+  (container)
+  )
+  
+(defwidget cava-bar [height]
+  (box
+    :class "cava-bar-wrapper"
+    :valign "end"
+    :width 8
+    :height 80
+    (box
+      :class "cava-bar"
+      :valign "end"
+      :width 6
+      :height height)))
+      
+; --- Lado izquierdo: bar1 → bar10 (orden normal) ---
+(defwidget cava-left []
+  (box
+    :class "cava-side"
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :spacing 2
+
+    (cava-bar :height bar1)
+    (cava-bar :height bar2)
+    (cava-bar :height bar3)
+    (cava-bar :height bar4)
+    (cava-bar :height bar5)
+    (cava-bar :height bar6)
+    (cava-bar :height bar7)
+    (cava-bar :height bar8)
+))
+
+; --- Lado derecho: bar10 → bar1 (orden invertido = espejo) ---
+(defwidget cava-right []
+  (box
+    :class "cava-side"
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :spacing 2
+
+    (cava-bar :height bar8)
+    (cava-bar :height bar7)
+    (cava-bar :height bar6)
+    (cava-bar :height bar5)
+    (cava-bar :height bar4)
+    (cava-bar :height bar3)
+    (cava-bar :height bar2)
+    (cava-bar :height bar1)))
+
+; --- Visualizador completo: izq + espejo ---
+(defwidget cava-visualizer []
+  (box
+    :class "cava-visualizer"
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :halign "center"
+    :spacing 2
+    (cava-left)
+    (cava-right)))
+
+(defwidget container []
+  (box :class "container"
+    :orientation "v"
+    :space-evenly false
+    :spacing 1
+    (box :class "controllers" :orientation "h" 
+      :spacing 10
+      (wifi-control)
+      (bluetooth-control)
+    )
+    (box :class "controllers2" :orientation "h"
+      :spacing 20
+      :space-evenly false
+      (music-control)
+      (brightness-slider)
+      (volume-slider)
+      
+    )
+  )
+)
+
+(defpoll volume-poll
+  :interval "1s"
+  :initial "50"
+  `wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{printf "%d", $2*100}' || pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -Po '\d+(?=%)' | head -1 || echo "50"`)
+
+(defpoll brightness-poll
+  :interval "2s"
+  :initial "50"
+  `brightnessctl get -m | awk -F',' '{print $4}' | tr -d '%\n' 2>/dev/null || echo "50"`)
+
+(defwidget wifi-control []
+  (box :class "wifi-content"
+    :orientation "h"
+    :space-evenly false
+  (button
+    :class "button-wifi"
+    :onclick "Se activa o desactiva el wifi" 
+    (box :orientation "h"
+      (box (label :class "icon-wifi" :text "" :xalign 0))
+      (box :class "wifi-name-control" :orientation "v"
+        (label :text "Wi-Fi" :xalign 0 :yalign 0.5)
+        (label :text "Desactivado" :yalign 0)
+      )
+    )
+  )
+  (box :class "separator")
+  (button
+    :class "button-wifi-options"
+    :onclick "Lista de todas las redes disponibles"
+    (box (label :class "icon-wifi-options" :text ""))
+  )
+))
+
+(defwidget bluetooth-control []
+  (box :class "bluetooth-content"
+    :orientation "h"
+    :space-evenly false
+  (button
+    :class "button-bluetooth"
+    :onclick "Se activa o desactiva el bluetooth" 
+    (box :orientation "h"
+      (box (label :class "icon-bluetooth" :text "":xalign 0))
+      (box :class "bluetooth-name-control" :orientation "v"
+        (label :text "Bluetooth" :xalign 0 :yalign 0.5) 
+        (label :text "Desactivado" :yalign 0)
+      )
+    )
+  )
+  (box :class "separator")
+  (button
+    :class "button-bluetooth-options"
+    :onclick "Lista de todas los dispositivos disponibles"
+    (box (label :class "icon-bluetooth-options" :text "")))
+))
+
+(defwidget volume-slider []
+  (box :class "volume-slider"
+      :orientation "h"
+      (overlay
+      (scale :class "volume-scale"
+        :value volume-poll
+        :min 0
+        :max 101
+        :orientation "v"
+        :flipped true
+        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
+      (label :class "tile-icon slider-icon" :text ""))
+  )
+)
+(defwidget brightness-slider []
+  (box :class "brightness-slider"
+      :orientation "h"
+      :space-evenly false
+      (overlay
+      (scale :class "brightness-scale"
+        :value brightness-poll
+        :min 0
+        :max 101
+        :orientation "v"
+        :flipped true
+        :onchange "brightnessctl set {}%")
+      (label :class "tile-icon slider-icon" :text "󰖨"))
+  )
+)
+
+(defwidget music-control []
+  (box :class "music-content"
+    :orientation "v"
+    :space-evenly false
+    :spacing 0
+    (box :orientation "v"
+      :space-evenly false
+      :spacing 12
+      :valign "start"
+      (image :class "music-cover")
+      (cava-visualizer)
+      (box :orientation "v"
+        :valign "center"
+        :hexpand true
+        :space-evenly false
+        (label :class "music-title"
+          :text "{music-title-poll}"
+          :xalign 0
+          :truncate true
+          :limit-width 20)
+        (label :class "music-artist"
+          :text "{music-artist-poll}"
+          :xalign 0
+          :truncate true
+          :limit-width 20)))
+    (box :orientation "h"
+      :halign "center"
+      :space-evenly true
+      :spacing 20
+      :valign "end"
+      :vexpand true
+      (button :class "music-btn" (label :text "󰒮"))
+      (button :class "music-btn music-btn-play" (label :text "󰐊"))
+      (button :class "music-btn" (label :text "󰒭"))
+    )
+  )
+)
