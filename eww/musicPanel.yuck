@@ -1,0 +1,122 @@
+(defvar bar1  2)
+(defvar bar2  2)
+(defvar bar3  2)
+(defvar bar4  2)
+(defvar bar5  2)
+(defvar bar6  2)
+(defvar bar7  2)
+(defvar bar8  2)
+(defvar bar9  2)
+(defvar bar10 2)
+
+
+(deflisten bars_data
+  :initial '{"b1":2,"b2":2,"b3":2,"b4":2,"b5":2,"b6":2,"b7":2,"b8":2,"b9":2,"b10":2}'
+  `bash ~/.config/eww/scripts/cava-listen.sh`)
+
+(defwindow music-panel 
+  :monitor 0
+  :geometry (geometry :anchor "bottom right" :x "0px" :y "0px" :width "380px" :height "680px")
+  :stacking "overlay"
+  (music-container)
+  )
+
+; --- Barra individual ---
+(defwidget cava-bar [height]
+  (box
+    :class "cava-bar-wrapper"
+    :valign "end"
+    :width 8
+    :height 80
+    (box
+      :class "cava-bar"
+      :valign "end"
+      :width 6
+      :height height)))
+      
+; --- Lado izquierdo
+(defwidget cava-left []
+  (box
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :spacing 2
+    (cava-bar :height {bars_data.b1})
+    (cava-bar :height {bars_data.b2})
+    (cava-bar :height {bars_data.b3})
+    (cava-bar :height {bars_data.b4})
+    (cava-bar :height {bars_data.b5})
+    (cava-bar :height {bars_data.b6})
+    (cava-bar :height {bars_data.b7})
+    (cava-bar :height {bars_data.b8})
+    (cava-bar :height {bars_data.b9})
+    (cava-bar :height {bars_data.b10})))
+
+; --- Lado derecho
+(defwidget cava-right []
+  (box
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :spacing 2
+    (cava-bar :height {bars_data.b10})
+    (cava-bar :height {bars_data.b9})
+    (cava-bar :height {bars_data.b8})
+    (cava-bar :height {bars_data.b7})
+    (cava-bar :height {bars_data.b6})
+    (cava-bar :height {bars_data.b5})
+    (cava-bar :height {bars_data.b4})
+    (cava-bar :height {bars_data.b3})
+    (cava-bar :height {bars_data.b2})
+    (cava-bar :height {bars_data.b1})))
+
+; --- Visualizador completo: izq + espejo ---
+(defwidget cava-visualizer []
+  (box
+    :class "cava-visualizer"
+    :orientation "h"
+    :space-evenly false
+    :valign "end"
+    :halign "center"
+    :spacing 1
+    (cava-left)
+    (box :class "cava-mirror-gap" )
+    (cava-right)))
+
+(defwidget music-container []
+  (box :class "music-container"
+    :orientation "v"
+    :space-evenly false
+    :spacing 1
+    (box :orientation "v"
+      :space-evenly false
+      :spacing 12
+      :valign "start"
+      (image :class "panel-music-front")
+      (box :orientation "v"
+        :valign "center"
+        :hexpand true
+        :space-evenly false
+        (label :class "music-title"
+          :text "{music-title-poll}"
+          :xalign 0
+          :truncate true
+          :limit-width 20)
+        (label :class "music-artist"
+          :text "{music-artist-poll}"
+          :xalign 0
+          :truncate true
+          :limit-width 20))
+      (cava-visualizer))
+    (box :orientation "h"
+      :halign "center"
+      :space-evenly true
+      :spacing 20
+      :valign "end"
+      :vexpand true
+      (button :class "music-btn" (label :text "󰒮"))
+      (button :class "music-btn music-btn-play" (label :text "󰐊"))
+      (button :class "music-btn" (label :text "󰒭"))
+    )
+  )
+)

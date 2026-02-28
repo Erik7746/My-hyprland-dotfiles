@@ -1,19 +1,7 @@
-(defvar bar1  2)
-(defvar bar2  2)
-(defvar bar3  2)
-(defvar bar4  2)
-(defvar bar5  2)
-(defvar bar6  2)
-(defvar bar7  2)
-(defvar bar8  2)
-(defvar bar9  2)
-(defvar bar10 2)
+(include "musicPanel.yuck")
+(include "wifiPanel.yuck")
 
 (defvar volume 35)
-
-(deflisten bars_data
-  :initial '{"b1":2,"b2":2,"b3":2,"b4":2,"b5":2,"b6":2,"b7":2,"b8":2,"b9":2,"b10":2}'
-  `bash ~/.config/eww/scripts/cava-listen.sh`)
 
 (defwindow control-panel 
   :monitor 0
@@ -21,68 +9,6 @@
   :stacking "overlay"
   (container)
   )
-  
-; --- Barra individual ---
-(defwidget cava-bar [height]
-  (box
-    :class "cava-bar-wrapper"
-    :valign "end"
-    :width 8
-    :height 80
-    (box
-      :class "cava-bar"
-      :valign "end"
-      :width 6
-      :height height)))
-      
-; --- Lado izquierdo
-(defwidget cava-left []
-  (box
-    :orientation "h"
-    :space-evenly false
-    :valign "end"
-    :spacing 2
-    (cava-bar :height {bars_data.b1})
-    (cava-bar :height {bars_data.b2})
-    (cava-bar :height {bars_data.b3})
-    (cava-bar :height {bars_data.b4})
-    (cava-bar :height {bars_data.b5})
-    (cava-bar :height {bars_data.b6})
-    (cava-bar :height {bars_data.b7})
-    (cava-bar :height {bars_data.b8})
-    (cava-bar :height {bars_data.b9})
-    (cava-bar :height {bars_data.b10})))
-
-; --- Lado derecho
-(defwidget cava-right []
-  (box
-    :orientation "h"
-    :space-evenly false
-    :valign "end"
-    :spacing 2
-    (cava-bar :height {bars_data.b10})
-    (cava-bar :height {bars_data.b9})
-    (cava-bar :height {bars_data.b8})
-    (cava-bar :height {bars_data.b7})
-    (cava-bar :height {bars_data.b6})
-    (cava-bar :height {bars_data.b5})
-    (cava-bar :height {bars_data.b4})
-    (cava-bar :height {bars_data.b3})
-    (cava-bar :height {bars_data.b2})
-    (cava-bar :height {bars_data.b1})))
-
-; --- Visualizador completo: izq + espejo ---
-(defwidget cava-visualizer []
-  (box
-    :class "cava-visualizer"
-    :orientation "h"
-    :space-evenly false
-    :valign "end"
-    :halign "center"
-    :spacing 1
-    (cava-left)
-    (box :class "cava-mirror-gap" )
-    (cava-right)))
 
 (defwidget container []
   (box :class "container"
@@ -115,28 +41,7 @@
   :initial "50"
   `brightnessctl get -m | awk -F',' '{print $4}' | tr -d '%\n' 2>/dev/null || echo "50"`)
 
-(defwidget wifi-control []
-  (box :class "wifi-content"
-    :orientation "h"
-    :space-evenly false
-  (button
-    :class "button-wifi"
-    :onclick "Se activa o desactiva el wifi" 
-    (box :orientation "h"
-      (box (label :class "icon-wifi" :text "" :xalign 0))
-      (box :class "wifi-name-control" :orientation "v"
-        (label :text "Wi-Fi" :xalign 0 :yalign 0.5)
-        (label :text "Desactivado" :yalign 0)
-      )
-    )
-  )
-  (box :class "separator")
-  (button
-    :class "button-wifi-options"
-    :onclick "Lista de todas las redes disponibles"
-    (box (label :class "icon-wifi-options" :text ""))
-  )
-))
+
 
 (defwidget bluetooth-control []
   (box :class "bluetooth-content"
@@ -200,7 +105,6 @@
       :spacing 12
       :valign "start"
       (image :class "music-cover")
-      (cava-visualizer)
       (box :orientation "v"
         :valign "center"
         :hexpand true
