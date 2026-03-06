@@ -1,0 +1,36 @@
+(defwidget music-control []
+  (box :class "music-content"
+    :orientation "v"
+    :space-evenly false
+    :spacing 0
+    (box :orientation "v"
+      :space-evenly false
+      :spacing 12
+      :valign "start"
+      (image :class "music-cover")
+      (box :orientation "v"
+        :valign "center"
+        :hexpand true
+        :space-evenly false
+        (label :class "music-title-w"
+          :text "titulo de la musica"
+          :xalign 0
+          :truncate true
+          :limit-width 20)
+        (label :class "music-artist-w"
+          :text "artista de la musica"
+          :xalign 0
+          :truncate true
+          :limit-width 20)))
+    (box :orientation "h"
+      :halign "center"
+      :space-evenly true
+      :spacing 20
+      :valign "end"
+      :vexpand true
+      (button :class "music-btn-w" (label :text "󰒮"))
+      (button :class "music-btn-w music-btn-play-w" (label :text "󰐊"))
+      (button :class "music-btn-w" (label :text "󰒭"))
+    )
+  )
+)

@@ -1,0 +1,20 @@
+(defpoll brightness-poll
+  :interval "600ms"
+  :initial "50"
+  `brightnessctl -m | awk -F',' '{print int($4)}'`)
+
+(defwidget brightness-slider []
+  (box :class "brightness-slider"
+    :orientation "h"
+    :space-evenly false
+    (overlay
+      (scale :class "brightness-scale"
+        :value {brightness-poll}
+        :min 0
+        :max 101
+        :orientation "v"
+        :flipped true
+        :onchange "brightnessctl set {}%")
+      (label :class "tile-icon slider-icon" :text "󰖨"))
+  )
+)

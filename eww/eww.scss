@@ -1,3 +1,19 @@
+$buttom-off      : rgba(0, 0, 0, 0.205);
+$buttom-off-hover: rgba(103, 103, 103, 0.441);
+$buttom-on       : #7aa2ff;    
+$buttom-on-hover : #b0c8ff;   
+$text            : rgb(255, 255, 255);
+$text-sub        : #6c7086;
+
+
+@import  "styles/wifiStyle.scss";
+@import  "styles/bluetoothStyle.scss";
+@import  "styles/slidersStyle.scss";
+@import  "styles/musicStyle.scss";
+@import  "styles/shortcutsStyles.scss";
+@import  "styles/musicWidgetStyle.scss";
+
+/*=== Panel de control ===*/
 .control-panel {
   background-color: transparent;
 }
@@ -6,239 +22,17 @@
   border-radius: 18px;
   background-color: rgba(36, 36, 36, 0.244);
 }
+
 .controllers2 {
-  padding: 20px;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
 }
+
 .controllers {
-  padding: 20px;
-}
-
-
-/*=== Wi-Fi Button ===*/
-.wifi-content {
-  min-height: 60px;
-  background-color: transparent;
-  border-radius: 14px;
-}
-.icon-wifi {
-  font-size: 20px;
-  color: #ffffff;
-  min-width: 40px;
-}
-.icon-wifi-options {
-    color: #ffffff;
-}
-
-.wifi-name-control label {
-  color: #ffffff;
-  min-width: 80px;
-
-}
-
-.button-wifi {
-  background: rgba(0, 0, 0, 0.205);
-  border-radius: 14px 0px 0px 14px;
-  
-  border: none ;
-  outline: none;
-  box-shadow: none;
-
-}
-.button-wifi:hover {
-  background: #728ec2;
-}
-.button-wifi:active {
-  background: #7aa2ff;
-}
-.button-wifi-options {
-  background: rgba(0, 0, 0, 0.205);
-  border-radius: 0px 14px 14px 0px;
-  border: none ;
-  outline: none;
-  box-shadow: none;
-}
-.button-wifi-options:hover {
-  background: #728ec2;
-}
-.button-wifi-options:active {
-  background: #7aa2ff;
-}
-.separator {
-  background-color: rgb(255, 255, 255);
-  min-width: 1px;
-}
-.wifi-popup-container {
-  background: #181825;
-  border: 1px rgba(255,255,255,0.07);
-  border-radius: 16px;
-  padding: 14px 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.55);
-  min-width: 300px;
-}
-.wifi-sub-label {
-    font-size: 11px;
-    color: #383838;
-  }
-
-/*=== Bluetooth Button ===*/
-.bluetooth-content {
-  min-height: 60px;
-  min-width: 20px;
-  background-color: transparent;
-  border-radius: 14px;
-}
-.icon-bluetooth {
-  font-size: 30px;
-  color: #ffffff;
-  margin-left: 0px;
-  
-}
-.bluetooth-name-control {
-  color: #ffffff;
-  margin-left: -25px;
-}
-.icon-bluetooth-options {
-    color: #ffffff;
-}
-.button-bluetooth {
-  background: rgba(0, 0, 0, 0.205);
-  border-radius: 14px 0px 0px 14px;
-
-  border: none ;
-  outline: none;
-  box-shadow: none;
-}
-.button-bluetooth:hover {
-  background: #728ec2;
-
-}
-.button-bluetooth:active {
-  background: #7aa2ff;
-}
-.button-bluetooth-options {
-  background: rgba(0, 0, 0, 0.205);
-  border-radius: 0px 14px 14px 0px;
-  border: none ;
-  outline: none;
-  box-shadow: none;
-}
-.button-bluetooth-options:hover {
-  background: #728ec2;
-}
-.button-bluetooth-options:active {
-  background: #7aa2ff;
-}
-
-/*=== Volume and Brightness slider ===*/
-.brightness-scale,
-.volume-scale{
-  min-height: 160px;
-  min-width: 50px;
-  background-color: rgba(67, 111, 128, 0);
-  margin: -12px;
-  outline: none;
-  box-shadow: none;
-}
-
-.brightness-scale trough,
-.volume-scale trough {
-  background-color: rgba(0, 0, 0, 0.274);
-  border-radius: 12px;
-  min-width: 70px;
-  
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.brightness-scale highlight,
-.brightness-scale fill,
-.volume-scale highlight,
-.volume-scale fill {
-  all: unset;
-  background-color: #ffffff;
-  border-radius: 18px;
-  min-width: 20px;
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.brightness-scale slider,
-.volume-scale slider {
-  background: transparent;
-  padding: 0px;
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.brightness-scale contents,
-.volume-scale contents {
-  all: unset;
-  background: transparent;
-}
-
-.tile-icon {
-  font-size: 30px;
-  color: #000000;
-  margin-top: 180px;
-  margin-right: 10px;
-  
-}
-
-/*=== Music ===*/
-.music-content {
-  min-height: 240px;
-  min-width: 170px;
-  background-color: #232a37;
-  border-radius: 16px;
-  padding: 10px;
-}
-.music-cover {
-  border-radius: 10px;
-  background-color: #000000;
-  min-width: 40px;
-  min-height: 140px;
-}
-.music-btn {
-  font-size: 20px;
-  color: #000000;
-  padding: 4px 8px;
-  border-radius: 8px;
-  background-color: transparent;
-}
-
-.music-title,
-.music-artist {
-  color: #ffffff;
-}
-
-.cava-visualizer {
-  background: transparent;
-}
-
-.cava-bar-wrapper {
-  background: rgba(255, 255, 255, 0.081);
-  min-height: 100px;
-}
-.cava-bar {
-  background: #6cbdda;
-  min-width: 12px;
-  transition: none;
-}
-
-.music-panel {
-  background-color: transparent;
-}
-
-.music-container {
-  background-color: rgba(36, 36, 36, 0.244);
-  padding: 40px;
-  border-radius: 40px;
-}
-.panel-music-front {
-  background-color: #5a5a5a;
-  min-height: 300px;
-  border-radius: 40px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
 }

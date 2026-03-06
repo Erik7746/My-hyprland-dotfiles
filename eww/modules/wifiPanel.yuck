@@ -1,0 +1,535 @@
+; --- Variables de estado ---
+(defvar wifi-enabled true)
+(defvar wifi-menu-open false)
+(defvar wifi-password-open false)
+(defvar wifi-connecting-ssid "")
+(defvar wifi-password-input "")
+(defvar wifi-show-password false)
+(defvar wifi-pw-error "")
+(defvar wifi-expanded-ssid "")
+
+; --- Polls ---
+(defpoll wifi-status-poll
+  :interval "2s"
+  :initial "on"
+  `nmcli radio wifi 2>/dev/null || echo "unknown"`)
+
+(defpoll wifi-ssid-poll
+  :interval "2s"
+  :initial "Desconectado"
+  `nmcli -t -f DEVICE,TYPE,STATE,CONNECTION dev status \
+| awk -F: '$2=="wifi" && $3=="connected"{print $4; found=1} END{if(!found) print "Desconectado"}'`)
+
+(defpoll wifi-networks-poll
+  :interval "3s"
+  :initial "[]"
+  `python3 << 'PYEOF'
+import subprocess, json, sys, os
+
+if os.path.exists("/tmp/eww-wifi-lock") and os.path.exists("/tmp/eww-wifi-cache"):
+    with open("/tmp/eww-wifi-cache") as f:
+        print(f.read())
+    sys.exit()
+
+def run(*args, timeout=8):
+    r = subprocess.run(list(args), capture_output=True, text=True, timeout=timeout)
+    return r.stdout
+
+networks = []
+seen_ssid = set()
+
+try:
+    raw = run(
+        "nmcli", "--color", "no", "-e", "no",
+        "--fields", "IN-USE,SSID,SIGNAL,SECURITY",
+        "dev", "wifi", "list"
+    )
+    lines = raw.splitlines()
+    if not lines:
+        raise ValueError("empty")
+
+    header = lines[0]
+
+    def col_positions(header_line):
+        starts = []
+        in_word = False
+        for i, ch in enumerate(header_line):
+            if ch != ' ' and not in_word:
+                starts.append(i)
+                in_word = True
+            elif ch == ' ':
+                in_word = False
+        positions = []
+        for idx, start in enumerate(starts):
+            end = starts[idx + 1] if idx + 1 < len(starts) else None
+            name = header_line[start:end].strip()
+            positions.append((name, start, end))
+        return positions
+
+    cols = col_positions(header)
+
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        row = {}
+        for (name, start, end) in cols:
+            slice_end = end if end is not None else len(line)
+            row[name] = line[start:slice_end].strip() if start < len(line) else ""
+
+        in_use   = row.get("IN-USE", "") == "*"
+        ssid     = row.get("SSID", "")
+        signal   = row.get("SIGNAL", "0")
+        security = row.get("SECURITY", "")
+
+        # Ignorar SSIDs vacíos u ocultos (--)
+        if not ssid or ssid == "--":
+            continue
+
+        # Deduplicar: conservar entrada con mayor señal
+        if ssid in seen_ssid:
+            for n in networks:
+                if n["ssid"] == ssid and int(signal or 0) > n["signal"]:
+                    n["signal"] = int(signal or 0)
+                    n["active"] = n["active"] or in_use
+            continue
+
+        seen_ssid.add(ssid)
+        networks.append({
+            "ssid":    ssid,
+            "signal":  int(signal) if signal.isdigit() else 0,
+            "secured": bool(security and security not in ("", "--")),
+            "active":  in_use,
+            "saved":   False,
+        })
+
+except Exception:
+    pass
+
+try:
+    saved_raw = run("nmcli", "-t", "-f", "NAME", "con", "show")
+    saved_ssids = set(line.strip() for line in saved_raw.splitlines() if line.strip())
+    for n in networks:
+        n["saved"] = n["ssid"] in saved_ssids
+except Exception:
+    pass
+
+networks.sort(key=lambda x: (x["active"], x["signal"]), reverse=True)
+print(json.dumps(networks))
+PYEOF
+`)
+; ============================================================
+;  Ventana flotante: lista de redes WiFi
+; ============================================================
+(defwindow wifi-networks-window
+  :monitor 0
+  :geometry (geometry
+    :anchor "top right"
+    :x "68px"
+    :y "80px"
+    :width "320px"
+    :height "380px")
+  :stacking "overlay"
+  :visible false
+  :focusable "ondemand"
+  (wifi-networks-popup))
+
+; ============================================================
+;  Widget principal: botón WiFi + botón opciones
+; ============================================================
+(defwidget wifi-control []
+  (box
+    :class "wifi-content"
+    :orientation "h"
+    :space-evenly false
+
+    ; --- Botón toggle WiFi ---
+    (button
+      :class {wifi-status-poll == "enabled" ? "button-wifi wifi-on" : "button-wifi wifi-off"}
+      :tooltip {wifi-status-poll == "enabled" ? "Desactivar WiFi" : "Activar WiFi"}
+      :onclick `bash -c '
+        STATUS=$(nmcli radio wifi)
+        if [ "$STATUS" = "enabled" ]; then
+          nmcli radio wifi off
+        else
+          nmcli radio wifi on
+        fi'`
+      (box
+        :orientation "h"
+        :space-evenly false
+        (box
+          (label
+            :class "icon-wifi"
+            :text {
+              wifi-status-poll != "enabled" ? "󰖪" :
+              wifi-ssid-poll == "Desconectado" ? "󰤫" :
+              "󰖩"
+            }
+            :xalign 0.3))
+        (box
+          :class "wifi-name-control"
+          :orientation "v"
+          (label :text "Wi-Fi" :xalign 0 :yalign 0.5)
+          (label
+            ; Prioridad: desactivado → sin conexión → muestra el SSID real
+            :text {
+              wifi-status-poll != "enabled" ? "Desactivado" :
+              wifi-ssid-poll == "Desconectado" ? "Sin conexión" :
+              wifi-ssid-poll
+            }
+            :class "wifi-sub-label"
+            :xalign 0
+            :yalign 0
+            :truncate true
+            :limit-width 14))
+      )
+    )
+
+    (box :class "separator")
+
+    ; --- Botón opciones (despliega lista) ---
+    (button
+      :class {wifi-status-poll == "enabled" ? "button-wifi-options options-on" : "button-wifi-options options-off"}
+      :tooltip "Redes disponibles"
+      :onclick `
+      eww open-many --toggle overlay_list
+      eww open-many --toggle wifi-networks-window
+      rm -f /tmp/eww-wifi-lock `
+      (box
+        (label :class "icon-wifi-options" :text "")))
+    
+  )
+)
+
+; ============================================================
+;  Popup: lista de redes disponibles
+; ============================================================
+(defwidget wifi-networks-popup []
+  (box
+    :class "wifi-popup-container"
+    :orientation "v"
+    :space-evenly false
+    :spacing 4
+
+    ; Cabecera
+    (box
+      :class "wifi-popup-header"
+      :orientation "h"
+      :space-evenly false
+      :spacing 8
+      (button
+        :class "wifi-popup-close"
+        :onclick `eww close wifi-networks-window
+        eww close overlay_list`
+        (label :class "icon-popup-close" :text ""))
+      (label :class "wifi-popup-title" :text "Redes Wi-Fi")
+      (box :hexpand true)
+      (button
+        :class {wifi-status-poll == "enabled" ? "wifi-toggle-btn on" : "wifi-toggle-btn off"}
+        :onclick `bash -c 'STATUS=$(nmcli radio wifi); if [ "$STATUS" = "enabled" ]; then nmcli radio wifi off; else nmcli radio wifi on; fi'`
+        (label :text {wifi-status-poll == "enabled" ? "󰔡" : "󰨙"} :yalign 0))
+    )
+
+;    ; Estado del radio
+;    (box
+;      :class "wifi-popup-toggle-row"
+;      :orientation "h"
+;      :space-evenly false
+;      :spacing 8
+;      (label :text "Estado:" :class "wifi-popup-state-label")
+;      (label
+;        :text {wifi-status-poll == "enabled" ? "Activado" : "Desactivado"}
+;        :class {wifi-status-poll == "enabled" ? "wifi-state-on" : "wifi-state-off"})
+;      (box :hexpand true)
+;      )
+
+    ; Separador
+    (box :class "wifi-popup-divider")
+
+    ; Lista de redes
+    (scroll
+      :class "wifi-networks-scroll"
+      :vscroll true
+      :height 260
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 2
+        (for net in wifi-networks-poll
+          (wifi-network-row :net net))))
+
+    ; Botón refrescar
+    (button
+      :class "wifi-refresh-btn"
+      :onclick `nmcli dev wifi rescan 2>/dev/null &`
+      (box :orientation "h" :spacing 6 :halign "center"
+
+        (label :text "󰑓   Actualizar")))
+  )
+)
+
+; ============================================================
+;  Fila de una red individual
+; ============================================================
+(defwidget wifi-network-row [net]
+  (box
+    :orientation "v"
+    :space-evenly false
+    :spacing 0
+
+    ; ── Botón principal de la red ──
+    (button
+      :class {net.active
+        ? (wifi-expanded-ssid == net.ssid ? "wifi-network-item active expanded" : "wifi-network-item active")
+        : (wifi-expanded-ssid == net.ssid ? "wifi-network-item expanded"        : "wifi-network-item")}
+
+      :onclick `bash -c '
+        SSID="${net.ssid}"
+        SECURED="${net.secured}"
+        SAVED="${net.saved}"
+        ACTIVE="${net.active}"
+        EXPANDED="${wifi-expanded-ssid}"
+
+        # Toggle off si ya está expandido
+        if [ "$EXPANDED" = "$SSID" ]; then
+          eww update wifi-expanded-ssid=""
+          eww update wifi-password-input=""
+          eww update wifi-pw-error=""
+          eww update wifi-show-password=false
+          exit 0
+        fi
+
+        # Cerrar cualquier otro expandido
+        eww update wifi-password-input=""
+        eww update wifi-pw-error=""
+        eww update wifi-show-password=false
+
+        # Conectada y guardada → mostrar inline desconectar/borrar
+        if [ "$ACTIVE" = "true" ]; then
+          eww update wifi-expanded-ssid="$SSID"
+          exit 0
+        fi
+
+        # Guardada pero no conectada → mostrar inline conectar/borrar
+        if [ "$SAVED" = "true" ]; then
+          eww update wifi-expanded-ssid="$SSID"
+          exit 0
+        fi
+
+        # Red abierta → conectar directo
+        if [ "$SECURED" = "false" ]; then
+          nmcli dev wifi connect "$SSID" &
+          exit 0
+        fi
+
+        # Red segura sin perfil → expandir formulario contraseña
+        eww update wifi-connecting-ssid="$SSID"
+        eww update wifi-expanded-ssid="$SSID"
+        eww update wifi-networks-poll > /tmp/eww-wifi-cache 2>/dev/null || true
+        touch /tmp/eww-wifi-lock'`
+
+      (box
+        :orientation "h"
+        :space-evenly false
+        :spacing 8
+        :hexpand true
+
+        (label
+          :class "wifi-net-signal-icon"
+          :text {
+            net.signal >= 75 ? "󰤨 " :
+            net.signal >= 50 ? "󰤥 " :
+            net.signal >= 25 ? "󰤢 " :
+            "󰤟 "
+          })
+
+        (label
+          :class "wifi-net-name"
+          :text {net.ssid}
+          :xalign 0
+          :hexpand true
+          :truncate true
+          :limit-width 22)
+
+        (label
+          :class "wifi-net-active-dot"
+          :text {net.active ? "󰄬" : ""}
+          :visible {net.active})
+
+        (label
+          :class "wifi-net-lock-icon"
+          :text {net.secured ? "󰌾" : ""}
+          :visible {net.secured})
+      )
+    )
+
+    ; ── CASO 1: Red segura, no guardada → formulario contraseña ──
+    (revealer
+      :transition "slidedown"
+      :duration "200ms"
+      :reveal {wifi-expanded-ssid == net.ssid && !net.saved && !net.active}
+
+      (box
+        :class "wifi-inline-pw-box"
+        :orientation "v"
+        :space-evenly false
+        :spacing 6
+
+        (box :orientation "h" :space-evenly false
+          (input
+            :class "wifi-pw-input"
+            :hexpand true
+            :password {wifi-show-password ? false : true}
+            :onchange `eww update wifi-password-input="{}"`
+            :onaccept `bash ~/.config/eww/scripts/wifi-connect.sh "${net.ssid}" "${wifi-password-input}" &
+              eww update wifi-pw-error="Conectando…"`)
+          
+          (button
+            :class "wifi-pw-toggle-vis"
+            :tooltip {wifi-show-password ? "Ocultar" : "Mostrar"}
+            :onclick `eww update wifi-show-password=${wifi-show-password ? false : true}`
+            (label :text {wifi-show-password ? "󰛐" : "󰛑"})))
+
+        (box
+          :class "wifi-pw-error-box"
+          :visible {wifi-pw-error != ""}
+          :orientation "h"
+          (label
+            :class "wifi-pw-error-msg"
+            :text wifi-pw-error
+            :xalign 1
+            :wrap true))
+
+        (box
+          :orientation "h"
+          :space-evenly false
+          :spacing 2
+          :halign "end"
+
+          (button
+            :class "wifi-pw-btn cancel"
+            :onclick `bash -c '
+              eww update wifi-expanded-ssid=""
+              eww update wifi-password-input=""
+              eww update wifi-pw-error=""
+              eww update wifi-show-password=false
+              rm -f /tmp/eww-wifi-lock'`
+            (label :text "Cancelar"))
+
+          (button
+            :class "wifi-pw-btn connect"
+            :onclick `bash ~/.config/eww/scripts/wifi-connect.sh "${net.ssid}" "${wifi-password-input}" &
+              eww update wifi-pw-error="Conectando…"`
+            (label :text "Conectar"))
+        )
+      )
+    )
+
+    ; ── CASO 2: Guardada pero no conectada → conectar / borrar ──
+    (revealer
+      :transition "slidedown"
+      :duration "200ms"
+      :reveal {wifi-expanded-ssid == net.ssid && net.saved && !net.active}
+
+      (box
+        :class "wifi-inline-pw-box"
+        :orientation "v"
+        :space-evenly false
+        :spacing 6
+
+        (box
+          :class "wifi-pw-error-box"
+          :visible {wifi-pw-error != ""}
+          :orientation "h"
+          
+          (label
+            :class "wifi-pw-error-msg"
+            :text wifi-pw-error
+            :xalign 1
+            :wrap true))
+
+        (box
+          :orientation "h"
+          :space-evenly false
+          :spacing 2
+          :halign "end"
+
+          (button
+            :class "wifi-pw-btn cancel"
+            :onclick `bash -c '
+              eww update wifi-expanded-ssid=""
+              eww update wifi-pw-error=""'`
+            (label :text "Cancelar"))
+
+          (button
+            :class "wifi-pw-btn delete"
+            :onclick `bash -c '
+              nmcli con delete "${net.ssid}" 2>/dev/null
+              eww update wifi-expanded-ssid=""
+              eww update wifi-pw-error=""'`
+            (label :text "Borrar"))
+
+          (button
+            :class "wifi-pw-btn connect"
+            :onclick `bash -c '
+              eww update wifi-pw-error=""
+              nmcli con up "${net.ssid}" &'`
+            (label :text "Conectar"))
+        )
+      )
+    )
+
+    ; ── CASO 3: Conectada y guardada → desconectar / borrar ──
+    (revealer
+      :transition "slidedown"
+      :duration "200ms"
+      :reveal {wifi-expanded-ssid == net.ssid && net.active}
+
+      (box
+        :class "wifi-inline-pw-box"
+        :orientation "v"
+        :space-evenly false
+        :spacing 6
+
+        (box
+          :class "wifi-pw-error-box"
+          :visible {wifi-pw-error != ""}
+          :orientation "h"
+          (label
+            :class "wifi-pw-error-msg"
+            :text wifi-pw-error
+            :xalign 1
+            :wrap true))
+
+        (box
+          :orientation "h"
+          :space-evenly false
+          :spacing 2
+          :halign "end"
+
+          (button
+            :class "wifi-pw-btn cancel"
+            :onclick `bash -c '
+              eww update wifi-expanded-ssid=""
+              eww update wifi-pw-error=""'`
+            (label :text "Cancelar"))
+
+          (button
+            :class "wifi-pw-btn delete"
+            :onclick `bash -c '
+              nmcli con delete "${net.ssid}" 2>/dev/null
+              eww update wifi-expanded-ssid=""
+              eww update wifi-pw-error=""'`
+            (label :text "Borrar"))
+
+          (button
+            :class "wifi-pw-btn disconnect"
+            :onclick `bash -c '
+              nmcli con down "${net.ssid}" 2>/dev/null
+              eww update wifi-expanded-ssid=""
+              eww update wifi-pw-error=""'`
+            (label :text "Desconectar"))
+        )
+      )
+    )
+  )
+)

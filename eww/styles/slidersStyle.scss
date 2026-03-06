@@ -1,0 +1,64 @@
+/*=== Volume and Brightness slider ===*/
+.brightness-scale,
+.volume-scale{
+  min-height: 160px;
+  min-width: 65px;
+  background-color: rgba(67, 111, 128, 0);
+
+  outline: none;
+  box-shadow: none;
+}
+.volume-scale{
+  margin-left: -10px;
+}
+.brightness-scale {
+  margin-left: 10px;
+}
+.brightness-scale trough,
+.volume-scale trough {
+  background-color: rgba(0, 0, 0, 0.274);
+  border-radius: 15px;
+  min-width: 65px;
+  
+  border: none;
+  outline: none;
+  box-shadow: none;
+  
+}
+
+.brightness-scale highlight,
+.brightness-scale fill,
+.volume-scale highlight,
+.volume-scale fill {
+  all: unset;
+  background-color: #ffffff;
+  border-radius: 15px;
+  min-width: 65px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  
+}
+
+.brightness-scale slider,
+.volume-scale slider {
+  background: transparent;
+  padding: 0px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.brightness-scale contents,
+.volume-scale contents {
+  all: unset;
+  background: transparent;
+}
+
+.tile-icon {
+  font-size: 20px;
+  color: #000000;
+  margin-top: 110px;
+  margin-right: 10px;
+  
+}

@@ -1,0 +1,38 @@
+(defwidget clusters []
+  (box :orientation "v"
+    :class "cluster-box"
+    :spacing 10
+    (box :class "cluster top" 
+      :orientation "h" 
+      :spacing 10
+      (button :class "shortcut short1"
+        :onclick `bash -c 'firefox -new-window https://github.com &'`
+        (image :path "icons/github.svg" :fill-svg "#ffffff" 
+          :image-width 60
+          :image-height 60)
+      )
+      (button :class "shortcut short2"
+        :onclick `bash -c 'firefox -new-window https://youtube.com &'`
+        (image :path "icons/youtube.svg" :fill-svg "#ffffff" 
+          :image-width 60
+          :image-height 60)
+      )
+    )
+    (box :class "cluster bottom" 
+      :orientation "h" 
+      :spacing 10
+      (button :class "shortcut short3"
+        :onclick `bash -c 'firefox -new-window https://chat.openai.com &'`
+        (image :path "icons/chatgpt.svg" :fill-svg "#ffffff" 
+          :image-width 60
+          :image-height 60)
+      )
+      (button :class "shortcut short4"
+        :onclick `bash -c 'firefox -new-window https://claude.ai &'`
+        (image :path "icons/claude.svg" :fill-svg "#ffffff"
+          :image-width 60
+          :image-height 60)
+      )
+    )
+  )
+)

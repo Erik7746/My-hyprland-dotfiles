@@ -1,7 +1,11 @@
-(include "musicPanel.yuck")
-(include "wifiPanel.yuck")
-
-(defvar volume 35)
+(include "modules/musicPanel.yuck")
+(include "modules/wifiPanel.yuck")
+(include "modules/bluetoothPanel.yuck")
+(include "modules/volumeSlider.yuck")
+(include "modules/brightnessSlider.yuck")
+(include "modules/shortcuts.yuck")
+(include "modules/musicWidget.yuck")
+(include "modules/musicList.yuck")
 
 (defwindow control-panel 
   :monitor 0
@@ -14,120 +18,45 @@
   (box :class "container"
     :orientation "v"
     :space-evenly false
-    :spacing 1
-    (box :class "controllers" :orientation "h" 
+    :spacing 0
+    (box :class "controllers" 
+      :orientation "h" 
       :spacing 10
       (wifi-control)
       (bluetooth-control)
     )
-    (box :class "controllers2" :orientation "h"
-      :spacing 20
+    (box :class "controllers2" 
+      :orientation "h"
+      :spacing 10
       :space-evenly false
       (music-control)
-      (brightness-slider)
-      (volume-slider)
-      
-    )
-  )
-)
-
-(defpoll volume-poll
-  :interval "1s"
-  :initial "50"
-  `wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{printf "%d", $2*100}' || pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -Po '\d+(?=%)' | head -1 || echo "50"`)
-
-(defpoll brightness-poll
-  :interval "2s"
-  :initial "50"
-  `brightnessctl get -m | awk -F',' '{print $4}' | tr -d '%\n' 2>/dev/null || echo "50"`)
-
-
-
-(defwidget bluetooth-control []
-  (box :class "bluetooth-content"
-    :orientation "h"
-    :space-evenly false
-  (button
-    :class "button-bluetooth"
-    :onclick "Se activa o desactiva el bluetooth" 
-    (box :orientation "h"
-      (box (label :class "icon-bluetooth" :text "":xalign 0))
-      (box :class "bluetooth-name-control" :orientation "v"
-        (label :text "Bluetooth" :xalign 0 :yalign 0.5) 
-        (label :text "Desactivado" :yalign 0)
+      (box :class "controlers3" 
+        :orientation "v"
+        :space-evenly false
+        :spacing 5
+        (box :class "sliders" 
+          :orientation "h"
+          :spacing 5
+          (brightness-slider)
+          (volume-slider))
+        (clusters)
       )
     )
   )
-  (box :class "separator")
-  (button
-    :class "button-bluetooth-options"
-    :onclick "Lista de todas los dispositivos disponibles"
-    (box (label :class "icon-bluetooth-options" :text "")))
-))
-
-(defwidget volume-slider []
-  (box :class "volume-slider"
-      :orientation "h"
-      (overlay
-      (scale :class "volume-scale"
-        :value volume-poll
-        :min 0
-        :max 101
-        :orientation "v"
-        :flipped true
-        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
-      (label :class "tile-icon slider-icon" :text ""))
-  )
 )
-(defwidget brightness-slider []
-  (box :class "brightness-slider"
-      :orientation "h"
-      :space-evenly false
-      (overlay
-      (scale :class "brightness-scale"
-        :value brightness-poll
-        :min 0
-        :max 101
-        :orientation "v"
-        :flipped true
-        :onchange "brightnessctl set {}%")
-      (label :class "tile-icon slider-icon" :text "󰖨"))
-  )
-)
-
-(defwidget music-control []
-  (box :class "music-content"
-    :orientation "v"
-    :space-evenly false
-    :spacing 0
-    (box :orientation "v"
-      :space-evenly false
-      :spacing 12
-      :valign "start"
-      (image :class "music-cover")
-      (box :orientation "v"
-        :valign "center"
-        :hexpand true
-        :space-evenly false
-        (label :class "music-title"
-          :text "{music-title-poll}"
-          :xalign 0
-          :truncate true
-          :limit-width 20)
-        (label :class "music-artist"
-          :text "{music-artist-poll}"
-          :xalign 0
-          :truncate true
-          :limit-width 20)))
-    (box :orientation "h"
-      :halign "center"
-      :space-evenly true
-      :spacing 20
-      :valign "end"
-      :vexpand true
-      (button :class "music-btn" (label :text "󰒮"))
-      (button :class "music-btn music-btn-play" (label :text "󰐊"))
-      (button :class "music-btn" (label :text "󰒭"))
-    )
-  )
-)
+(defwindow overlay
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  :windowtype "dock"
+  (eventbox :onclick "eww close overlay && eww close control-panel"
+            ""))
+(defwindow overlay_list
+  :monitor 0
+  :geometry (geometry :anchor "top right" :x "0px" :y "0px" :width "400px" :height "400px")
+  :stacking "overlay"
+  :focusable false
+  :windowtype "dock"
+  (eventbox :onclick "eww close overlay_list && eww close wifi-networks-window"
+            ""))
