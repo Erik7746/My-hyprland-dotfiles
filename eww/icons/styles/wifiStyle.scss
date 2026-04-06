@@ -1,0 +1,235 @@
+.wifi-content {
+  background-color: transparent;
+}
+
+/*=== Boton de wi-fi ===*/
+.button-wifi {
+  border-radius: 14px 0px 0px 14px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+
+.wifi-on {
+  background: $buttom-on;
+}
+.wifi-on:hover {
+  background: $buttom-on-hover;
+}
+.wifi-on:active {
+  background: $buttom-on;
+}
+
+.wifi-off {
+  background: $buttom-off;
+}
+.wifi-off:hover {
+  background: $buttom-off-hover;
+}
+.wifi-off:active {
+  background: $buttom-off;
+}
+
+.icon-wifi {
+  font-size: 20px;
+  color: #ffffff;
+  min-width: 40px;
+}
+
+.wifi-name-control label {
+  color: $text;
+  min-width: 80px;
+}
+.wifi-sub-label {
+    font-size: 11px;
+    color: $text;
+  }
+
+/*=== Boton de opciones ===*/
+.button-wifi-options {
+  border-radius: 0px 14px 14px 0px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+
+.options-on {
+  background: $buttom-on;
+}
+.options-on:hover {
+  background: $buttom-on-hover;
+}
+.options-on:active {
+  background: $buttom-on;
+}
+
+.options-off {
+  background: $buttom-off;
+}
+.options-off:hover {
+  background: $buttom-off-hover;
+}
+.options-off:active {
+  background: $buttom-off;
+}
+
+.icon-wifi-options {
+    color: #ffffff;
+}
+
+.separator {
+  background-color: rgb(255, 255, 255);
+  min-width: 1px;
+}
+
+/*=== Lista de dispositivos ===*/
+.wifi-networks-window {
+  background-color: transparent;
+}
+.wifi-popup-container {
+  background: rgba(0, 0, 0, 0.322);
+  border-radius: 18px;
+  padding: 14px 12px;
+  min-width: 300px;
+}
+.wifi-popup-close {
+  background: transparent;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+.wifi-popup-close:hover {
+  .icon-popup-close {
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-popup-close {
+  font-size: 18px;
+  color: #909090;
+}
+.wifi-popup-title {
+  color: #cecece;
+}
+.wifi-popup-toggle-row {
+  color: #cecece;
+}
+.wifi-toggle-btn {
+  background: rgba(0, 0, 0, 0);
+  font-size: 40px;
+  color: #c8c8c8;
+  border-radius: 10px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+.wifi-toggle-btn:hover {
+  color: #ffffff;
+}
+.wifi-toggle-btn:active {
+  color: #b7b7b7;
+}
+.wifi-network-item {
+  background: transparent;
+  border-radius: 16px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+  color: #ffffff;
+}
+.wifi-network-item:hover {
+  background: rgba(72, 72, 72, 0.529);
+}
+
+.wifi-net-signal-icon {
+  color: #ffffff;
+}
+
+/*=== Formulario inline ===*/
+.wifi-inline-pw-box {
+  background: rgba(72, 72, 72, 0.529);
+  border-radius: 0px 0px 16px 16px;
+  padding: 8px 10px;
+  border-top: none;
+  
+}
+.wifi-network-item.expanded {
+  background: rgba(72, 72, 72, 0.529);
+  border-radius: 16px 16px 0 0; 
+}
+
+.wifi-network-item.expanded:hover {
+  background: rgba(72, 72, 72, 0.529); 
+}
+
+.wifi-pw-input {
+  background-color: rgba(0, 0, 0, 0.312);
+  font-size: 12px;
+  color: #ffffff;
+  caret-color: #ffffff;
+  border-radius: 12px 0px 0px 12px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+.wifi-pw-toggle-vis {
+  background: rgba(0, 0, 0, 0.312);
+  border-radius: 0px 12px 12px 0px;
+  color: #ffffff;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.wifi-pw-btn {
+  background: rgba(0, 0, 0, 0.095);
+  color: #cecece;
+  border-radius: 8px;
+  font-size: 12px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+.wifi-pw-btn:hover {
+  background: rgba(42, 98, 118, 0.466);
+  color: #cecece;
+
+}
+.wifi-pw-btn:active {
+  background: rgba(92, 211, 255, 0.466);
+  color: #ffffff;
+
+}
+
+.wifi-pw-error-box {
+  color: #ffffff;
+  font-size: 12px;
+}
+.wifi-refresh-btn {
+  background: rgba(0, 0, 0, 0.095);
+  color: #cecece;
+  border-radius: 8px;
+  font-size: 12px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+.wifi-refresh-btn:hover {
+  background: rgba(42, 98, 118, 0.466);
+  color: #cecece;
+}
+.wifi-refresh-btn:active {
+  background: rgba(84, 193, 233, 0.466);
+  color: #cecece;
+}
+.overlay {
+  background-color: transparent;
+}
+.overlay_list {
+  background-color: transparent;
+}

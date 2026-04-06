@@ -1,0 +1,22 @@
+(defvar volume 35)
+
+(defpoll volume-poll
+  :interval "600ms"
+  :initial "50"
+  `wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{printf "%d", $2*100}' || pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -Po '\d+(?=%)' | head -1 || echo "50"`)
+
+(defwidget volume-slider []
+  (box :class "volume-slider"
+      :orientation "h"
+      :space-evenly false
+      (overlay
+      (scale :class "volume-scale"
+        :value volume-poll
+        :min 0
+        :max 101
+        :orientation "v"
+        :flipped true
+        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
+      (label :class "tile-icon slider-icon" :text ""))
+  )
+)

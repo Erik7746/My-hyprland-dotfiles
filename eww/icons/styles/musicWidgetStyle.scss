@@ -1,0 +1,40 @@
+
+
+.music-content {
+
+  background-color: rgba(22, 22, 22, 0.415);
+  border-radius: 16px;
+  padding: 15px;
+}
+.music-cover {
+  border-radius: 10px;
+  min-width: 160px;
+  min-height: 160px;
+
+}
+.music-title-w{
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+.music-artist-w {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+}
+.music-btn-w {
+  font-size: 24px;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+.music-btn-w:hover {
+  background: #434343;
+}
+.music-btn-w:active {
+  background: #7a7a7a;
+}

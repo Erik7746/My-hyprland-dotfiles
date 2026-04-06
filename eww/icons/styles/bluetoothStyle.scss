@@ -1,0 +1,57 @@
+
+/*=== Bluetooth Button ===*/
+.bluetooth-content {
+  min-height: 60px;
+  min-width: 20px;
+  background-color: transparent;
+  border-radius: 14px;
+}
+.icon-bluetooth {
+  font-size: 25px;
+  color: #ffffff;
+  min-width: 40px;
+  
+}
+.bluetooth-name-control {
+  color: #ffffff;
+  min-width: 80px;
+}
+.icon-bluetooth-options {
+    color: #ffffff;
+}
+.button-bluetooth {
+  background: $buttom-off;
+  border-radius: 14px 0px 0px 14px;
+
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+.button-bluetooth:hover {
+  background: #728ec2;
+
+}
+.button-bluetooth:active {
+  background: #7aa2ff;
+}
+.button-bluetooth-options {
+  background: $buttom-off;
+  border-radius: 0px 14px 14px 0px;
+  border: none ;
+  outline: none;
+  box-shadow: none;
+}
+.button-bluetooth-options:hover {
+  background: #728ec2;
+}
+.button-bluetooth-options:active {
+  background: #7aa2ff;
+}
+.bt-inline-options-box {
+  background: $buttom-off;
+  border-radius: 0 0 8px 8px;
+  padding: 8px 10px;
+  margin: 0 4px 4px 4px;
+  border: 1px solid $buttom-off;
+  border-top: none;
+}

@@ -1,0 +1,38 @@
+$buttom-off      : rgba(0, 0, 0, 0.205);
+$buttom-off-hover: rgba(103, 103, 103, 0.441);
+$buttom-on       : #7aa2ff;    
+$buttom-on-hover : #b0c8ff;   
+$text            : rgb(255, 255, 255);
+$text-sub        : #6c7086;
+
+
+@import  "styles/wifiStyle.scss";
+@import  "styles/bluetoothStyle.scss";
+@import  "styles/slidersStyle.scss";
+@import  "styles/musicStyle.scss";
+@import  "styles/shortcutsStyles.scss";
+@import  "styles/musicWidgetStyle.scss";
+
+.control-panel {
+  background-color: transparent;
+}
+
+.container {
+  border-radius: 18px;
+  background-color: rgba(36, 36, 36, 0.244);
+}
+
+.controllers {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+
+.controllers2 {
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+

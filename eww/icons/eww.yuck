@@ -1,0 +1,67 @@
+(include "modules/musicPanel.yuck")
+(include "modules/wifiPanel.yuck")
+(include "modules/bluetoothPanel.yuck")
+(include "modules/volumeSlider.yuck")
+(include "modules/brightnessSlider.yuck")
+(include "modules/shortcuts.yuck")
+(include "modules/musicWidget.yuck")
+(include "modules/musicList.yuck")
+
+(defwindow control-panel 
+  :monitor 0
+  :geometry (geometry :anchor "top right" :x "20px" :y "10px" :width "400px" :height "420px")
+  :stacking "overlay"
+  :namespace "eww-control-panel"
+  (container)
+)
+
+(defwidget container []
+  (box :class "container"
+    :orientation "v"
+    :space-evenly false
+    :spacing 0
+    (box :class "controllers" 
+      :orientation "h" 
+      :spacing 10
+      (wifi-control)
+      (bluetooth-control)
+    )
+    (box :class "controllers2" 
+      :orientation "h"
+      :spacing 10
+      :space-evenly false
+      (music-control)
+      (box :class "controllers3" 
+        :orientation "v"
+        :space-evenly false
+        :spacing 10
+        (box :class "sliders" 
+          :orientation "h"
+          :space-evenly false
+          :spacing 10
+          (brightness-slider)
+          (volume-slider))
+        (clusters)
+      )
+    )
+  )
+)
+
+(defwindow overlay
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  :windowtype "dock"
+  (eventbox :onclick "eww close overlay && eww close control-panel"
+            "")
+)
+
+(defwindow overlay_list
+  :monitor 0
+  :geometry (geometry :anchor "top right" :x "0px" :y "0px" :width "400px" :height "400px")
+  :stacking "overlay"
+  :focusable false
+  :windowtype "dock"
+  (eventbox :onclick "eww close overlay_list && eww close wifi-networks-window"
+            ""))
