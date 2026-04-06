@@ -1,0 +1,28 @@
+/* Fondo del menú */
+menu {
+    background-color: #171723;
+    border: 1px solid #32344a;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+/* Cada opción */
+menuitem {
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* Hover */
+menuitem:hover {
+    background-color: #19d5ff;
+    color: #000000;
+    transition: background-color 200ms ease, color 200ms ease;
+
+}
+
+/* Separadores */
+separator {
+    background-color: #444444;
+    margin: 4px 0px;
+}

@@ -1,0 +1,19 @@
+{
+    "custom/clipboard": {
+        "format": "{0} ",
+        "rotate": 0,
+        "tooltip-format": "\udb80\udd47 Clipboard history",
+        "on-click": "sleep 0.1 && ~/.config/waybar/scripts/clipboard-history.sh",
+        "menu": "on-click-right",
+        "menu-file": "${XDG_CONFIG_HOME:-$HOME/.config}/waybar/menus/clipboard.xml",
+        "menu-actions": {
+            "history":         "~/.config/waybar/scripts/clipboard-history.sh",
+            "favorites":       "~/.config/waybar/scripts/clipboard-favorites.sh",
+            "manage-favorites":"~/.config/waybar/scripts/clipboard-manage-fav.sh",
+            "clear-history":   "~/.config/waybar/scripts/clipboard-clear.sh",
+            "delete-history":  "~/.config/waybar/scripts/clipboard-delete.sh"
+        },
+        "interval": 86400,
+        "tooltip": true
+    }
+}

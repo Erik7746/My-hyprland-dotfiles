@@ -1,0 +1,116 @@
+@import "~/.cache/wallpaper-selector/gradient.rasi"
+
+* {
+    main-bg:          #00000078;
+    main-fg:          #dadadaff;
+    select-fg:        #000000;
+    bg-alt:           #84848476;
+    fg-dim:           #9b9a9aff;
+    accent:           #ffffff;
+    urgent:           #e05c5c;
+}
+
+configuration {
+    me-select-entry: "";
+    me-accept-entry: "!MousePrimary";
+    kb-cancel: "Escape,MousePrimary";
+
+    hover-select: true;
+}
+
+window {
+    background-color: @main-bg;
+    border:           0;
+    border-radius:    18px;
+    width:            520px;
+    padding:          8px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    padding:          8px 4px;
+    spacing:          6px;
+}
+
+/* ── Barra de búsqueda ── */
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    18px;
+    padding:          10px 14px;
+    spacing:          8px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @accent;
+    font:             "Iosevka 11";
+}
+
+entry {
+    background-color:  transparent;
+    font:              "Iosevka 11";
+    placeholder:       " Buscar...";
+    placeholder-color: @fg-dim;
+    cursor-color:      #ffffffff;
+    cursor-width:      1px; 
+    text-color:        @accent;
+}
+
+/* ── Lista ── */
+listview {
+    background-color: transparent;
+    lines:            10;
+    columns:          1;
+    fixed-height:     false;
+    spacing:          0px;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    10px;
+    padding:          8px 12px;
+    spacing:          10px;
+    orientation:      horizontal;
+    children:         [ element-text ];
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @main-fg;
+}
+
+element selected.normal {
+    text-color:       @select-fg;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    text-color: @urgent;
+}
+
+element selected.urgent {
+    background-color: @select-fg;
+    text-color:       @urgent;
+}
+
+element-text {
+    font:             "Iosevka 11";
+    vertical-align:   0.5;
+    background-color: transparent;
+    text-color:       inherit;
+}
+
+/* ── Mensaje / sin resultados ── */
+message {
+    background-color: @bg-alt;
+    border-radius:    6px;
+    padding:          8px 12px;
+}
+
+textbox {
+    font:       "Iosevka 11";
+    text-color: @fg-dim;
+}
