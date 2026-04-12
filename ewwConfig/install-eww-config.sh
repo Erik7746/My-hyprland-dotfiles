@@ -94,7 +94,7 @@ ok "Paquetes oficiales instalados."
 step "Instalando paquetes desde AUR"
 
 AUR_PKGS=(
-    eww-wayland
+    eww-git
 )
 
 info "Paquetes AUR: ${AUR_PKGS[*]}"
@@ -219,7 +219,7 @@ fi
 # ── Configuración de eww ──────────────────────────────────────────────────────
 step "Instalando configuración de eww"
 
-EWW_DIR="$HOME/.config/eww"
+EWW_DIR="$HOME/.config/"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
