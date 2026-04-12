@@ -8,6 +8,7 @@
 (defwidget volume-slider []
   (box :class "volume-slider"
       :orientation "h"
+      :space-evenly false
       (overlay
       (scale :class "volume-scale"
         :value volume-poll

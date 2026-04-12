@@ -1,24 +1,29 @@
+
+
 (defwidget music-control []
   (box :class "music-content"
     :orientation "v"
     :space-evenly false
-    :spacing 0
+    :spacing 1
     (box :orientation "v"
       :space-evenly false
       :spacing 12
       :valign "start"
-      (image :class "music-cover")
+      (box :class "music-cover"
+        :style "background-image: url('${music-cover}');
+                background-position: center;
+                ")
       (box :orientation "v"
         :valign "center"
         :hexpand true
         :space-evenly false
         (label :class "music-title-w"
-          :text "titulo de la musica"
+          :text music-title
           :xalign 0
           :truncate true
           :limit-width 20)
         (label :class "music-artist-w"
-          :text "artista de la musica"
+          :text music-artist
           :xalign 0
           :truncate true
           :limit-width 20)))
@@ -28,9 +33,17 @@
       :spacing 20
       :valign "end"
       :vexpand true
-      (button :class "music-btn-w" (label :text "󰒮"))
-      (button :class "music-btn-w music-btn-play-w" (label :text "󰐊"))
-      (button :class "music-btn-w" (label :text "󰒭"))
+      (button :class "music-btn-w"
+        :onclick "mpc prev > /dev/null"
+        (label :text "󰒮"))
+
+      (button :class "music-btn-w music-btn-play-w"
+        :onclick "mpc toggle > /dev/null"
+        (label :text music-play-icon))
+
+      (button :class "music-btn-w"
+        :onclick "mpc next > /dev/null"
+        (label :text "󰒭"))
     )
   )
 )
