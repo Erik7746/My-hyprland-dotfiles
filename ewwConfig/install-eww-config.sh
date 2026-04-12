@@ -98,6 +98,7 @@ AUR_PKGS=(
 )
 
 info "Paquetes AUR: ${AUR_PKGS[*]}"
+info "En caso conflicto con otra version de eww ejecutar (sudo pacman -Rna eww-debug)"
 "$AUR_HELPER" -S --needed --noconfirm "${AUR_PKGS[@]}"
 ok "Paquetes AUR instalados."
 
