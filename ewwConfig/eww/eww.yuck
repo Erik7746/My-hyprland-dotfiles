@@ -53,7 +53,7 @@
   :stacking "fg"
   :focusable false
   :windowtype "dock"
-  (eventbox :onclick "eww close overlay && eww close control-panel"
+  (eventbox :onclick "~/.config/eww/scripts/control-panel.sh overlay"
             "")
 )
 
@@ -63,5 +63,5 @@
   :stacking "overlay"
   :focusable false
   :windowtype "dock"
-  (eventbox :onclick "eww close overlay_list && eww close wifi-networks-window"
+  (eventbox :onclick "~/.config/eww/scripts/control-panel.sh overlay_list"
             ""))
