@@ -42,7 +42,7 @@ info "Instalando dependencias de necesarias"
 
 PACKAGES=(
     rofi-wayland
-    swww
+    awww
     imagemagick
     ffmpeg
     jq
