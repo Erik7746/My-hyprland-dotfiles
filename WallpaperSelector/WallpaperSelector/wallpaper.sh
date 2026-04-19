@@ -19,7 +19,7 @@ die(){ echo "wallpaper.sh: $*" >&2; exit 1; }
 have(){ command -v "$1" >/dev/null 2>&1; }
 
 ensure_deps(){
-  for c in hyprctl jq convert rofi swww wal; do
+  for c in hyprctl jq convert rofi awww wal; do
     have "$c" || die "Falta dependencia: $c"
   done
 }
@@ -198,8 +198,8 @@ apply_wall(){
     # Imagen estática
     stop_video_wall
 
-    pgrep -x swww-daemon >/dev/null 2>&1 || swww-daemon >/dev/null 2>&1 & sleep 0.2
-    swww img "$wall" \
+    pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 & sleep 0.2
+    awww img "$wall" \
       --transition-duration 1 \
       --transition-fps 60 \
       --transition-step 90 \
