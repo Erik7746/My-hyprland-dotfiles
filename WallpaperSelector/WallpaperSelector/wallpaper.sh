@@ -231,7 +231,7 @@ apply_wall(){
       # Video → Video: transicion directa via miniatura HD
       stop_video_wall
       awww img "$video_thumb" \
-        --transition-duration 0.5 \
+        --transition-duration 1 \
         --transition-fps 60 \
         --transition-step 90 \
         --transition-type any
@@ -241,7 +241,7 @@ apply_wall(){
       # Imagen → Video: primero miniatura HD del video, luego video
       stop_video_wall
       awww img "$video_thumb" \
-        --transition-duration 0.8 \
+        --transition-duration 1 \
         --transition-fps 60 \
         --transition-step 90 \
         --transition-type any
@@ -271,7 +271,7 @@ apply_wall(){
 
       # Transicion a la imagen final
       awww img "$wall" \
-        --transition-duration 0.8 \
+        --transition-duration 1 \
         --transition-fps 60 \
         --transition-step 90 \
         --transition-type any
