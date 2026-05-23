@@ -67,6 +67,38 @@ thumb_sqre(){
   printf '%s\n' "$out"
 }
 
+thumb_hd(){
+  local src="$1" h out
+  h="$(printf '%s' "$src" | sha1sum | cut -d' ' -f1)"
+  out="$CACHE_DIR/thumbs/${h}_hd.png"
+
+  if [[ -s "$out" ]]; then
+    printf '%s\n' "$out"
+    return
+  fi
+
+  mkdir -p "$CACHE_DIR/thumbs"
+
+  case "${src,,}" in
+    *.mp4|*.mkv|*.webm)
+      ffmpeg -y -loglevel error \
+        -ss 00:00:01 -i "$src" \
+        -frames:v 1 \
+        "$out"
+      ;;
+
+    *.gif)
+      convert "$src[0]" "$out"
+      ;;
+
+    *)
+      cp "$src" "$out"
+      ;;
+  esac
+
+  printf '%s\n' "$out"
+}
+
 # === Columnas dinamicas (segun resolucion/escala del monitor) ===
 calc_cols(){
   local j w s elm_width max_avail
@@ -175,6 +207,10 @@ apply_wall(){
   local wall="$1"
   [[ -f "$wall" ]] || die "Wallpaper inexistente: $wall"
 
+  # Guardar el wallpaper actual ANTES de actualizar
+  local prev_wall
+  prev_wall="$(current_wall)"
+
   mkdir -p  "$CACHE_DIR"
   ln -sfn "$wall" "$CACHE_DIR/wall.set"
 
@@ -187,25 +223,71 @@ apply_wall(){
 
 
   if is_video "$wall"; then
-    # Fondo animado
-    stop_video_wall
-    start_video_wall "$wall"
+    # Asegurar que la miniatura HD del video exista (sincrono)
+    local video_thumb
+    video_thumb="$(thumb_hd "$wall")"
+
+    if is_video "$prev_wall" && [[ -n "$prev_wall" ]]; then
+      # Video → Video: transicion directa via miniatura HD
+      stop_video_wall
+      awww img "$video_thumb" \
+        --transition-duration 0.5 \
+        --transition-fps 60 \
+        --transition-step 90 \
+        --transition-type any
+      sleep 0.6
+      start_video_wall "$wall"
+    else
+      # Imagen → Video: primero miniatura HD del video, luego video
+      stop_video_wall
+      awww img "$video_thumb" \
+        --transition-duration 0.8 \
+        --transition-fps 60 \
+        --transition-step 90 \
+        --transition-type any
+      sleep 0.9
+      start_video_wall "$wall"
+    fi
 
     # Colores desde frame del video
-    wal -q -n -s  -t -e -i "$CACHE_DIR/wall_set.png"
+    wal -q -n -s -t -e -i "$video_thumb"
 
   else
     # Imagen estática
-    stop_video_wall
+    if is_video "$prev_wall" && [[ -n "$prev_wall" ]]; then
+      # Video → Imagen: primero miniatura HD del video anterior, luego imagen final
+      local prev_video_thumb
+      prev_video_thumb="$(thumb_hd "$prev_wall")"
 
-    pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 & sleep 0.2
-    awww img "$wall" \
-      --transition-duration 1 \
-      --transition-fps 60 \
-      --transition-step 90 \
-      --transition-type any
+      stop_video_wall
 
-    wal -q -n -s -t -e -i "$wall" 
+      # Mostrar miniatura del video anterior como puente (instantaneo)
+      awww img "$prev_video_thumb" \
+        --transition-duration 0 \
+        --transition-fps 60 \
+        --transition-step 100 \
+        --transition-type any
+      sleep 0.15
+
+      # Transicion a la imagen final
+      awww img "$wall" \
+        --transition-duration 0.8 \
+        --transition-fps 60 \
+        --transition-step 90 \
+        --transition-type any
+    else
+      # Imagen → Imagen: transicion normal
+      stop_video_wall
+
+      pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 & sleep 0.2
+      awww img "$wall" \
+        --transition-duration 1 \
+        --transition-fps 60 \
+        --transition-step 90 \
+        --transition-type any
+    fi
+
+    wal -q -n -s -t -e -i "$wall"
 
   fi
 
