@@ -131,7 +131,11 @@ bash dolphin/install-config.sh
 
 ## 🖼️ Screenshots
 
-> *Add your screenshots here*
+![Screenshot01](Screenshots/Rofi_menu.jpg)
+![Screenshot01](Screenshots/Terminal_kitty.jpg)
+![Screenshot01](Screenshots/Wallpaper_selector.jpg)
+![Screenshot01](Screenshots/Panel_eww.jpg)
+![Screenshot01](Screenshots/Dolphin.jpg)
 
 ---
 
