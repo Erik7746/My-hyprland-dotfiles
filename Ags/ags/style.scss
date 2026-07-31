@@ -1,0 +1,298 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+$fg-color: #{"@theme_fg_color"};
+$bg-color: #{"@theme_bg_color"};
+
+/* ── Control Panel ── */
+window.ControlPanel {
+  background: transparent;
+  color: #fff;
+  font-family: "SF Pro", "Inter", "Segoe UI", sans-serif;
+  font-size: 13px;
+
+  .panel-container {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    min-width: 280px;
+  }
+
+  .panel-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  /* Toggles */
+  .toggle-btn {
+    background: rgba(120, 120, 120, 0.18);
+    border-radius: 16px;
+    border: none;
+    padding: 16px 12px;
+    min-width: 90px;
+    transition: background 0.2s ease;
+
+    image {
+      color: #fff;
+    }
+
+    .toggle-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    &:hover {
+      background: rgba(120, 120, 120, 0.28);
+    }
+
+    &:active {
+      background: rgba(120, 120, 120, 0.35);
+    }
+  }
+
+  .toggle-btn.active {
+    background: rgba(59, 130, 246, 0.85);
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.95);
+    }
+  }
+
+  .toggle-btn.wifi-toggle,
+  .toggle-btn.bt-toggle {
+    padding: 12px 14px;
+    min-width: 140px;
+
+    .toggle-sublabel {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  /* Wi-Fi Menu */
+  .wifi-network-btn {
+    background: transparent;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 8px;
+    transition: background 0.15s ease;
+
+    label {
+      font-size: 13px;
+      color: #fff;
+    }
+
+    image {
+      color: #fff;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &.no-hover:hover {
+      background: transparent;
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  .wifi-selected-row {
+    background: rgba(59, 130, 246, 0.12);
+    border-radius: 16px;
+    padding: 8px;
+    transition: background 0.2s ease;
+  }
+
+  .wifi-form-btn {
+    background: rgba(120, 120, 120, 0.2);
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    transition: background 0.2s ease;
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    &:hover {
+      background: rgba(120, 120, 120, 0.35);
+    }
+
+    &.primary {
+      background: rgba(59, 130, 246, 0.85);
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.95);
+      }
+    }
+  }
+
+  .wifi-refresh-icon-btn {
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+    padding: 4px;
+    min-width: 24px;
+    min-height: 24px;
+    transition: background 0.2s ease;
+
+    image {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .wifi-switch {
+    min-width: 36px;
+    min-height: 20px;
+    border-radius: 10px;
+
+    slider {
+      min-width: 16px;
+      min-height: 16px;
+      border-radius: 8px;
+      margin: 2px;
+    }
+  }
+
+  .bt-device-btn {
+    background: transparent;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 8px;
+    transition: background 0.15s ease;
+
+    label {
+      font-size: 13px;
+      color: #fff;
+    }
+
+    image {
+      color: #fff;
+    }
+
+    .bt-status-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    &.selected {
+      background: rgba(59, 130, 246, 0.12);
+    }
+  }
+
+  .bt-empty-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 12px;
+  }
+
+  .wifi-status-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 4px 0;
+  }
+
+  .wifi-password-entry {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 13px;
+
+    &:focus {
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  /* Sliders */
+  .slider-row {
+    padding: 0 4px;
+
+    image {
+      color: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  .control-slider {
+    trough {
+      background: rgba(120, 120, 120, 0.25);
+      border-radius: 20px;
+      min-width: 60px;
+
+      highlight {
+        background: #fff;
+        border-radius: 0px;
+        min-width: 60px;
+      }
+    }
+
+    slider {
+      opacity: 0;
+
+    }
+  }
+
+  /* Shortcuts */
+  .shortcut-btn {
+    background: rgba(120, 120, 120, 0.15);
+    border-radius: 16px;
+    border: none;
+    padding: 14px 8px;
+    transition: background 0.2s ease;
+
+    .shortcut-icon {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .shortcut-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &:hover {
+      background: rgba(120, 120, 120, 0.3);
+    }
+
+    &:active {
+      background: rgba(120, 120, 120, 0.4);
+    }
+  }
+}

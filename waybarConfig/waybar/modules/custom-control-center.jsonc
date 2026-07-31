@@ -1,0 +1,7 @@
+{
+  "custom/control-center": {
+  "format": "   ",
+  "tooltip": "Control Center",
+  "on-click": "ags request toggle"
+}
+}

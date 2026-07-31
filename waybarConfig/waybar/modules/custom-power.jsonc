@@ -8,7 +8,7 @@
         "menu": "on-click-right",
         "menu-file": "$HOME/.config/waybar/menus/power.xml",
         "menu-actions": {
-            "lock": "hyde-shell lockscreen.sh",
+            "lock": "loginctl lock-session",
             "logout": "hyprctl dispatch exit 0",
             "shutdown-now": "shutdown now",
             "shutdown-wait": "systemctl poweroff",

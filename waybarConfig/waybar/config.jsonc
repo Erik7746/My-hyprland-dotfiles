@@ -10,8 +10,24 @@
     "passthrough": false,
     "reload_style_on_change": true,
     "include": [
-        "$HOME/.config/waybar/modules/*json*", 
-        "$HOME/.config/waybar/includes/includes.json" 
+        "$HOME/.config/waybar/modules/hyprland-workspaces.jsonc",
+        "$HOME/.config/waybar/modules/hyprland-window.jsonc",
+        "$HOME/.config/waybar/modules/idle_inhibitor.jsonc",
+        "$HOME/.config/waybar/modules/clock.jsonc",
+        "$HOME/.config/waybar/modules/cpu.jsonc",
+        "$HOME/.config/waybar/modules/memory.jsonc",
+        "$HOME/.config/waybar/modules/temperature.jsonc",
+        "$HOME/.config/waybar/modules/custom-cpufreq.jsonc",
+        "$HOME/.config/waybar/modules/backlight.jsonc",
+        "$HOME/.config/waybar/modules/network.jsonc",
+        "$HOME/.config/waybar/modules/pulseaudio.jsonc",
+        "$HOME/.config/waybar/modules/pulseaudio#microphone.jsonc",
+        "$HOME/.config/waybar/modules/privacy.jsonc",
+        "$HOME/.config/waybar/modules/tray.jsonc",
+        "$HOME/.config/waybar/modules/battery.jsonc",
+        "$HOME/.config/waybar/modules/custom-clipboard.jsonc",
+        "$HOME/.config/waybar/modules/custom-control-center.jsonc",
+        "$HOME/.config/waybar/modules/custom-power.jsonc"
     ],
     // positions generated based on config.ctl //
     "modules-left": [
@@ -40,8 +56,8 @@
         "modules": [
             "cpu",
             "memory",
-            "custom/cpuinfo",
-            "custom/gpuinfo"
+            "temperature",
+            "custom/cpufreq"
         ]
     },
     "modules-right": [
@@ -55,9 +71,7 @@
             "backlight",
             "network",
             "pulseaudio",
-            "pulseaudio#microphone",
-            "custom/updates",
-            "custom/weather"
+            "pulseaudio#microphone"
         ]
     },
     "group/pill#right2": {
@@ -72,7 +86,7 @@
         "orientation": "inherit",
         "modules": [
             "custom/clipboard",
-            "custom/hyde-menu",
+            "custom/control-center",
             "custom/power"
         ]
     },
