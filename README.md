@@ -92,6 +92,12 @@ Each component has its own installer script. Run them from the repository root:
 # Wallpaper selector + dependencies
 bash WallpaperSelector/install-selector.sh
 
+# Waybar configuration
+bash waybarConfig/install-waybar.sh
+
+# AGS widgets
+bash Ags/install-ags.sh
+
 # Rofi configuration
 bash RofiMenu/install-rofi-menu.sh
 
