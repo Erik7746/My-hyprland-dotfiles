@@ -2,15 +2,14 @@
 
 // Config //
 configuration {
-    modi:                        "drun,filebrowser,window,run";
     show-icons:                  true;
-    display-drun:                " ";
-    display-run:                 " ";
-    display-filebrowser:         " ";
-    display-window:              " ";
     drun-display-format:         "{name}";
     window-format:               "{w}{t}";
-    font:                        "JetBrainsMono Nerd Font 9";
+    font:                        "Fira Code Nerd Font 9";
+    me-select-entry:             "";
+    me-accept-entry:             "!MousePrimary";
+    kb-cancel:                   "Escape,MousePrimary";
+    hover-select:                true;
     
 }
 
