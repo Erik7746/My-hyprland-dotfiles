@@ -32,7 +32,8 @@ fi
 
 x_mon=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .width')
 y_mon=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .height')
-hypr_scale=$(hyprctl -j monitors | jq '.[] | select (.focused == true) | .scale' | sed 's/\.//')
+hypr_scale=$(hyprctl -j monitors | jq '.[] | select (.focused == true) | .scale' | awk '{printf "%.0f", $1 * 100}')
+
 #// scale config layout and style
 
 case "${wlogoutStyle}" in
