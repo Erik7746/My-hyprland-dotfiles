@@ -136,12 +136,6 @@ if [[ ! -d "$WAYBAR_SRC" ]]; then
     error "No se encontró la carpeta 'waybar' junto al script en: $WAYBAR_SRC"
 fi
 
-# Backup si ya existe
-if [[ -d "$WAYBAR_DEST" ]]; then
-    BACKUP_DIR="${WAYBAR_DEST}.bak.$(date +%Y%m%d%H%M%S)"
-    warn "Waybar ya está configurado. Creando backup en: $BACKUP_DIR"
-    mv "$WAYBAR_DEST" "$BACKUP_DIR"
-fi
 
 cp -r "$WAYBAR_SRC" "$WAYBAR_DEST"
 ok "Configuración copiada a $WAYBAR_DEST"

@@ -168,12 +168,6 @@ if [[ ! -d "$AGS_SRC" ]]; then
     error "No se encontró la carpeta 'ags' junto al script en: $AGS_SRC"
 fi
 
-# Backup si ya existe
-if [[ -d "$AGS_DEST" ]]; then
-    BACKUP_DIR="${AGS_DEST}.bak.$(date +%Y%m%d%H%M%S)"
-    warn "AGS ya está configurado. Creando backup en: $BACKUP_DIR"
-    mv "$AGS_DEST" "$BACKUP_DIR"
-fi
 
 cp -r "$AGS_SRC" "$AGS_DEST"
 ok "Configuración copiada a $AGS_DEST"

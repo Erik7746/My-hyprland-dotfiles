@@ -328,7 +328,7 @@ rofi_select_wall(){
       -display-column-separator ":::" \
       -display-columns 1 \
       -theme-str "${font_override}" \
-      -theme-str "window{width:100%;} listview{columns:${cols};spacing:1em;} element{border-radius:12px;orientation:vertical;} element-text{padding:1em;}" \
+      -theme-str "window{width:100%;} listview{columns:6;spacing:1em;} element{border-radius:12px;orientation:vertical;} element-text{padding:1em;}" \
       -theme "$ROFI_THEME"
 }
 
