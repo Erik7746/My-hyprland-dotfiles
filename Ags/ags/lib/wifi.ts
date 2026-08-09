@@ -17,16 +17,6 @@ function sh(cmd: string): Promise<string> {
   return execAsync(["sh", "-c", `LC_ALL=C.UTF-8 ${cmd}`])
 }
 
-export async function getCurrentSsid(): Promise<string | null> {
-  try {
-    const out = await sh("nmcli -g SSID -a dev wifi")
-    const ssid = out.trim().split("\n")[0]
-    return ssid || null
-  } catch {
-    return null
-  }
-}
-
 /**
  * Escanea redes Wi-Fi disponibles.
  * @param force  Si es true, fuerza un rescan completo. Si es false, usa cache y evita rescan.

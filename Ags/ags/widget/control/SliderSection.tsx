@@ -38,7 +38,7 @@ export default function SliderSection() {
   })
 
   return (
-    <box class="section" spacing={16}>
+    <box class="section" spacing={2}>
       {/* Brightness */}
       <box orientation={Gtk.Orientation.VERTICAL} spacing={8}>
         <slider

@@ -1,6 +1,7 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$fg-color: #{"@theme_fg_color"};
-$bg-color: #{"@theme_bg_color"};
+/* ── Click Overlay (fondo al abrir Control Panel) ── */
+window.ClickOverlay {
+  background: rgba(0, 0, 0, 0.01);
+}
 
 /* ── Control Panel ── */
 window.ControlPanel {
@@ -14,7 +15,8 @@ window.ControlPanel {
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 20px;
-    min-width: 280px;
+    min-width: 320px;
+    min-height: 420px;
   }
 
   .panel-title {
@@ -78,6 +80,83 @@ window.ControlPanel {
       font-size: 10px;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  /* WiFi Toggle dividido */
+  .toggle-btn.wifi-toggle {
+    padding: 0;
+    border-radius: 16px;
+
+    button {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 12px 14px;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &:active {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .toggle-main {
+      border-radius: 16px 0 0 16px;
+    }
+
+    .toggle-arrow {
+      padding: 12px 10px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0 16px 16px 0;
+      transition: background 0.15s ease;
+    }
+  }
+
+  .toggle-btn.wifi-toggle.active,
+  .toggle-btn.bt-toggle.active {
+    button:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    button:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* Bluetooth Toggle dividido */
+  .toggle-btn.bt-toggle {
+    padding: 0;
+    border-radius: 16px;
+
+    button {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 12px 14px;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &:active {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .toggle-main {
+      border-radius: 16px 0 0 16px;
+    }
+
+    .toggle-arrow {
+      padding: 12px 10px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0 16px 16px 0;
+      transition: background 0.15s ease;
     }
   }
 
@@ -249,21 +328,26 @@ window.ControlPanel {
   }
 
   .control-slider {
+    border: none;
+
     trough {
       background: rgba(120, 120, 120, 0.25);
       border-radius: 20px;
+      border: none;
       min-width: 60px;
+      min-height: 110px;
 
       highlight {
         background: #fff;
         border-radius: 0px;
+        border: none;
         min-width: 60px;
       }
     }
 
     slider {
       opacity: 0;
-
+      border: none;
     }
   }
 
@@ -295,4 +379,286 @@ window.ControlPanel {
       background: rgba(120, 120, 120, 0.4);
     }
   }
+
+  /* Mini reproductor */
+  .mini-player {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 8px;
+  }
+
+  .mini-art-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .mini-art {
+    border-radius: 12px;
+  }
+
+  .mini-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .mini-artist {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .mini-control-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 4px;
+    min-width: 24px;
+    min-height: 24px;
+    transition: background 0.2s ease;
+
+    image {
+      color: #fff;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
 }
+
+/* ── Music Player ── */
+
+window.MusicPlayer {
+  background: transparent;
+  color: #fff;
+  font-family: "SF Pro", "Inter", "Segoe UI", sans-serif;
+
+  .music-container {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 24px;
+    min-width: 320px;
+    min-height: 480px;
+  }
+
+  .album-art-wrapper {
+    border-radius: 50%;
+    min-width: 220px;
+    min-height: 220px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .album-art {
+    border-radius: 50%;
+    min-width: 220px;
+    min-height: 220px;
+  }
+
+  .music-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .music-artist {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .music-slider {
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    trough {
+      background: rgba(120, 120, 120, 0.25);
+      border-radius: 4px;
+      min-height: 4px;
+      border: none;
+
+      highlight {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        border: none;
+      }
+    }
+
+    slider {
+      opacity: 0;
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .music-time {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .music-control-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    min-width: 30px;
+    min-height: 30px;
+    transition: background 0.2s ease;
+
+    image {
+      color: #fff;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .music-control-btn.play-btn {
+    background: transparent;
+    min-width: 30px;
+    min-height: 30px;
+    outline: none;
+    box-shadow: none;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .music-refresh-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    min-width: 30px;
+    min-height: 30px;
+    transition: background 0.2s ease;
+
+    image {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  .music-song-btn {
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 8px;
+    transition: background 0.15s ease;
+
+    label {
+      font-size: 13px;
+      color: #fff;
+    }
+
+    image {
+      color: rgb(255, 255, 255);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  .music-search-entry {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    
+    color: #fff;
+    font-size: 12px;
+    caret-color: #fff;
+    outline: none;
+      box-shadow: none;
+
+    &:focus {
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .music-mode-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    min-width: 20px;
+    min-height: 20px;
+    transition: background 0.2s ease;
+
+    image {
+      color: rgb(255, 255, 255);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* Scrollbar disimulado de la biblioteca */
+  scrollbar {
+    background: transparent;
+    border: none;
+    margin: 4px 0;
+    margin-left: 6px;
+
+    slider {
+      background: rgba(255, 255, 255, 0.074);
+      border-radius: 8px;
+      min-width: 6px;
+      min-height: 6px;
+      border: none;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    trough {
+      background: transparent;
+      border: none;
+      min-width: 6px;
+    }
+  }
+
+  /* Efecto de tope (overshoot/undershoot) disimulado */
+  scrolledwindow {
+    undershoot.top,
+    undershoot.bottom,
+    overshoot.top,
+    overshoot.bottom {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+}
+
+

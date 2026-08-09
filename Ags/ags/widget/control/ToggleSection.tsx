@@ -1,6 +1,8 @@
 import { Gtk } from "ags/gtk4"
 import { safeExec } from "../../lib/utils"
 import { wifiEnabled, btPowered, currentSsid, currentBtDevice } from "../../lib/connectivity"
+import { setWifiEnabled } from "../../lib/wifi"
+import { setBluetoothEnabled } from "../../lib/bluetooth"
 
 export default function ToggleSection({
   onWifiExpand,
@@ -12,12 +14,15 @@ export default function ToggleSection({
   return (
     <box class="section" spacing={12}>
       {/* WiFi */}
-      <button
+      <box
         class={wifiEnabled.as((v: boolean) => `toggle-btn wifi-toggle ${v ? "active" : ""}`)}
-        onClicked={() => onWifiExpand()}
       >
-        <box>
-          <box orientation={Gtk.Orientation.VERTICAL} spacing={4} hexpand halign={Gtk.Align.START}>
+        <button
+          class="toggle-main"
+          hexpand
+          onClicked={() => setWifiEnabled(!wifiEnabled())}
+        >
+          <box orientation={Gtk.Orientation.VERTICAL} spacing={4} halign={Gtk.Align.START}>
             <box spacing={6}>
               <image iconName="network-wireless-symbolic" pixelSize={20} />
               <label class="toggle-label" label="Wi-Fi" />
@@ -28,17 +33,25 @@ export default function ToggleSection({
               halign={Gtk.Align.START}
             />
           </box>
+        </button>
+        <button
+          class="toggle-arrow"
+          onClicked={() => onWifiExpand()}
+        >
           <image iconName="go-down-symbolic" pixelSize={14} valign={Gtk.Align.CENTER} />
-        </box>
-      </button>
+        </button>
+      </box>
 
       {/* Bluetooth */}
-      <button
+      <box
         class={btPowered.as((v: boolean) => `toggle-btn bt-toggle ${v ? "active" : ""}`)}
-        onClicked={() => onBtExpand()}
       >
-        <box>
-          <box orientation={Gtk.Orientation.VERTICAL} spacing={4} hexpand halign={Gtk.Align.START}>
+        <button
+          class="toggle-main"
+          hexpand
+          onClicked={() => setBluetoothEnabled(!btPowered())}
+        >
+          <box orientation={Gtk.Orientation.VERTICAL} spacing={4} halign={Gtk.Align.START}>
             <box spacing={6}>
               <image iconName="bluetooth-symbolic" pixelSize={20} />
               <label class="toggle-label" label="Bluetooth" />
@@ -49,9 +62,14 @@ export default function ToggleSection({
               halign={Gtk.Align.START}
             />
           </box>
+        </button>
+        <button
+          class="toggle-arrow"
+          onClicked={() => onBtExpand()}
+        >
           <image iconName="go-down-symbolic" pixelSize={14} valign={Gtk.Align.CENTER} />
-        </box>
-      </button>
+        </button>
+      </box>
     </box>
   )
 }
