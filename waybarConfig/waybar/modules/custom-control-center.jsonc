@@ -2,6 +2,6 @@
   "custom/control-center": {
   "format": "   ",
   "tooltip": "Control Center",
-  "on-click": "ags request toggle"
+  "on-click": "hyprctl eval \"toggle_ags_widget_anim('slide right', 'toggle')\""
 }
 }

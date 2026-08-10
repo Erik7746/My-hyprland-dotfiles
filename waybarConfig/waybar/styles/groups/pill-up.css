@@ -18,10 +18,10 @@ window#waybar.right #pill-up button {
 
 window#waybar.top #pill-up,
 window#waybar.bottom #pill-up {
-    margin: 0.3em 1em 0.3em 1em;
+    margin: 0.3em 0.4em 0.3em 0.4em;
 }
 
 window#waybar.left #pill-up,
 window#waybar.right #pill-up {
-    margin: 1em 0.3em 1em 0.3em;
+    margin: 0.4em 0.3em 0.4em 0.3em;
 }
