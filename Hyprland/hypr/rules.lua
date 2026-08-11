@@ -57,6 +57,14 @@ hl.window_rule({
     opacity = "1.0 override 1.0 override",
 })
 
+-- Disable animations for mpvpaper (background layer)
+hl.layer_rule({
+    match = {
+        namespace = "mpvpaper",
+    },
+    animation = "fade"
+})
+
 hl.layer_rule({
     match = {
           namespace = "waybar",

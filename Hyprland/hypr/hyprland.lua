@@ -33,7 +33,6 @@ require("monitors")
 -- Or execute your favorite apps at launch like this:
 
 hl.on("hyprland.start", function ()
-    hl.exec_cmd("mpvpaper")
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("waybar")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
@@ -51,6 +50,7 @@ hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("QT_STYLE_OVERRIDE", "kvantum")
+hl.env("XDG_MENU_PREFIX", "arch-")
 
 -----------------------
 ----- PERMISSIONS -----
