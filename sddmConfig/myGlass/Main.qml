@@ -131,15 +131,15 @@ Item {
             id: blur
             anchors.fill: parent
             source: bgSlice
-            radius: 22
+            radius: 33
             samples: 32
             cached: false
         }
 
         Rectangle {
             anchors.fill: parent
-            color: "#111111"
-            opacity: 0.4
+            color: "#1111111c"
+            opacity: 0.1
         }
     }
 

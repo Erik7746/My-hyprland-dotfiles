@@ -40,8 +40,8 @@ Item {
                 id: sessionEntryBg
 
                 color: highlighted
-                       ? "#55ffffff"
-                       : (sessionEntry.hovered ? "#44ffffff" : "#22ffffff")
+                       ? "#22ffffff"
+                       : (sessionEntry.hovered ? "#11ffffff" : "#11ffffff")
                 radius: config.CornerRadius
                 border.color: "#44ffffff"
                 border.width: 0
@@ -83,8 +83,8 @@ Item {
             id: sessionButtonBg
 
             color: sessionButton.hovered || sessionButton.down || sessionPopup.visible
-                   ? "#55ffffff"
-                   : "#33ffffff"
+                   ? "#11ffffff"
+                   : "#11ffffff"
             radius: config.CornerRadius
             border.color: "#66ffffff"
             border.width: 0
@@ -109,7 +109,7 @@ Item {
 
         background: Rectangle {
             radius: config.CornerRadius * 1.0
-            color: "#44ffffff"
+            color: "#11ffffff"
             border.color: "#66ffffff"
             border.width: 0
         }

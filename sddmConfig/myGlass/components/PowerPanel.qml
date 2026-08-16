@@ -36,8 +36,8 @@ Item {
             id: powerButtonBg
 
             color: powerButton.hovered || powerButton.down || powerPopup.visible
-                   ? "#55ffffff"
-                   : "#33ffffff"
+                   ? "#11ffffff"
+                   : "#11ffffff"
             radius: config.CornerRadius
             border.color: "#66ffffff"
             border.width: 0
@@ -62,7 +62,7 @@ Item {
 
         background: Rectangle {
             radius: config.CornerRadius * 1.8
-            color: "#44ffffff"
+            color: "#11ffffff"
             border.color: "#66ffffff"
             border.width: 0
 
@@ -142,7 +142,7 @@ Item {
                 background: Rectangle {
                     id: powerEntryBg
 
-                    color: powerEntry.hovered ? "#55ffffff" : "#22ffffff"
+                    color: powerEntry.hovered ? "#11ffffff" : "#11ffffff"
                     radius: config.CornerRadius
                     border.color: "#44ffffff"
                     border.width: 0

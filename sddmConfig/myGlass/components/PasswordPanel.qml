@@ -24,7 +24,7 @@ TextField {
 
         color: config.TextFieldColor
         opacity: 0.4
-        border.color: config.TextFieldTextColor
+        border.color: "#22ffffff"
         border.width: 0
         radius: config.CornerRadius
     }
@@ -35,7 +35,7 @@ TextField {
             when: passwordField.activeFocus
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.TextFieldColor, 1.2)
+                color: Qt.darker("#22ffffff", 1.2)
                 border.width: 0
             }
         },
@@ -44,7 +44,7 @@ TextField {
             when: passwordField.hovered
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.TextFieldColor, 1.2)
+                color: Qt.darker("#11ffffff", 1.2)
             }
         }
     ]
