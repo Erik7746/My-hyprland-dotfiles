@@ -287,6 +287,11 @@ hl.gesture({
     direction = "vertical",
     action = function () rofi_menu_anim("slide bottom", "rofi -show drun") end
 })
+hl.gesture({
+    fingers = 4,
+    direction = "vertical",
+    action = function() toggle_ags_widget_anim("slide bottom", "toggle-music") end
+})
 
 -- Example per-device config
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more
